@@ -7,4 +7,4 @@ A new mesh is created for export with it's second UV channel's vertices spaced e
 
 Mesh Morpher-
 This script creates a new panel in the object mode tool shelf as well as a new operator.
-When called the operator will (based on user settings) store shape key vertex offset data in a meshes's UV channels, and store normal data in it's vertex colors.
+When called the operator will (based on user settings) store shape key vertex offset data in a mesh's UV channels, and store normal data in it's vertex colors.
