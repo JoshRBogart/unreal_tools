@@ -107,7 +107,7 @@ def buildMorphData(data, morphList):
             morphNormals.append(currentNormal)
             currentVertPos = (morph.matrix_world * morph.data.vertices[i].co) - originalVertPos[i]
             currentVertPos = Vector([currentVertPos[0], -1.0 * currentVertPos[1], currentVertPos[2]])
-            offsetVertPos.append((currentVertPos) * 100.0)
+            offsetVertPos.append(currentVertPos)
 
         data.objects.remove(morph)
 
@@ -170,7 +170,7 @@ class UT_ProcessMeshesOperator(Operator):
     def execute(self, context):
         units = context.scene.unit_settings
         
-        if units.system != 'METRIC' or units.scale_length != 1.0:
+        if units.system != 'METRIC' or round(units.scale_length, 2) != 0.01:
             
             self.report({'ERROR'}, "Scene units must be Metric with a Unit Scale of 1!")
         
