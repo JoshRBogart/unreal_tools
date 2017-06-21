@@ -38,23 +38,16 @@ from mathutils import Vector
 #get shape key vertex offsets
 def buildOffsetList(obj, props):
     offsetList = []
-    originalVertPos = []
-    targetVertPos1 = []
-    targetVertPos2 = []
-    vertOffset1 = []
-    vertOffset2 = []
     
     originalVertPos = [v.co for v in obj.data.shape_keys.key_blocks[0].data]
     targetVertPos1 = [v.co for v in obj.data.shape_keys.key_blocks[1].data]  
     vertOffset1 = [targetVertPos1[i] - originalVertPos[i] for i in range(len(originalVertPos))]
     offsetList.append(vertOffset1)
     
-    if props.store_pivot_location == False:
-        
-        if len(obj.data.shape_keys.key_blocks) > 2:
-            targetVertPos2 = [v.co for v in obj.data.shape_keys.key_blocks[2].data]
-            vertOffset2 = [targetVertPos2[i] - originalVertPos[i] for i in range(len(originalVertPos))]
-            offsetList.append(vertOffset2)
+    if props.store_pivot_location == False and len(obj.data.shape_keys.key_blocks) > 2:
+        targetVertPos2 = [v.co for v in obj.data.shape_keys.key_blocks[2].data]
+        vertOffset2 = [targetVertPos2[i] - originalVertPos[i] for i in range(len(originalVertPos))]
+        offsetList.append(vertOffset2)
         
     else:
         vertOffset2 = [obj.location for i in range(len(originalVertPos))]
@@ -64,14 +57,13 @@ def buildOffsetList(obj, props):
 
 #store normals in vertex colors
 def packVertexColors(obj):
-    morphNormals = []
     
-    morphNormals = list(zip(*[(i for i in obj.data.shape_keys.key_blocks[1].normals_vertex_get())] * 3))
+    morphNormals = [i for i in zip(*(iter(obj.data.shape_keys.key_blocks[1].normals_vertex_get()),)*3)]
     
-    for i in range(len(morphNormals)):
-        currentNormal = morphNormals[i]
+    for id, normal in enumerate(morphNormals):
+        currentNormal = normal
         currentNormal = ((currentNormal[0] + 1.0) * 0.5, ((currentNormal[1] * -1.0) + 1.0) * 0.5, (currentNormal[2] + 1.0) * 0.5)
-        morphNormals[i] = currentNormal
+        morphNormals[id] = currentNormal
     
     while len(obj.data.vertex_colors) < 1:
         obj.data.vertex_colors.new()
@@ -85,25 +77,22 @@ def packVertexColors(obj):
 def packUVs(obj, offsetList, props):
     vertOffset1 = offsetList[0]
     
-    while len(obj.data.uv_layers.items()) < 4:
-        obj.data.uv_textures.new()
-    
     if props.store_pivot_location == True or len(obj.data.shape_keys.key_blocks) > 2:
         vertOffset2 = offsetList[1]
     
-        for poly in obj.data.polygons:
-        
-            for vertId, loopId in zip(poly.vertices, poly.loop_indices):
-                
+    while len(obj.data.uv_layers.items()) < 4:
+        obj.data.uv_textures.new()
+    
+    for poly in obj.data.polygons:
+    
+        for vertId, loopId in zip(poly.vertices, poly.loop_indices):
+            
+            if props.store_pivot_location == True or len(obj.data.shape_keys.key_blocks) > 2:
                 obj.data.uv_layers[1].data[loopId].uv = (vertOffset2[vertId][0], 1.0 - (vertOffset2[vertId][1] * -1.0))
                 obj.data.uv_layers[2].data[loopId].uv = (vertOffset2[vertId][2], 1.0 - vertOffset1[vertId][0])
                 obj.data.uv_layers[3].data[loopId].uv = (vertOffset1[vertId][1] * -1.0, 1.0 - vertOffset1[vertId][2])
                 
-    else:
-        for poly in obj.data.polygons:
-    
-            for vertId, loopId in zip(poly.vertices, poly.loop_indices):
-                
+            else:
                 obj.data.uv_layers[2].data[loopId].uv = (0.0, 1.0 - vertOffset1[vertId][0])
                 obj.data.uv_layers[3].data[loopId].uv = (vertOffset1[vertId][1] * -1.0, 1.0 - vertOffset1[vertId][2])
     
@@ -143,7 +132,7 @@ class UT_PackMorphTargetsOperator(Operator):
             
             return {'CANCELLED'}
         
-        elif len(context.object.data.shape_keys.key_blocks) < 2:
+        elif not context.object.data.shape_keys or len(context.object.data.shape_keys.key_blocks) < 2:
             
             self.report({'ERROR'}, "Object needs additional shape keys!")
             
