@@ -93,58 +93,40 @@ def generateExportMesh(data, morphList, scene):
 def buildMorphData(data, morphList):
     offsetVertPos = []
     morphNormals = []
-    offsetValues = []
-    normalValues = []
-    morphData = []
     
     originalVertPos = [morphList[0].matrix_world * vert.co for vert in morphList[0].data.vertices]
     
     for morph in morphList:
         
-        for i in range(len(morph.data.vertices)):
-            currentNormal = morph.data.vertices[i].normal * morph.matrix_world
+        for i, vert in enumerate(reversed(morph.data.vertices)):
+            currentNormal = vert.normal * morph.matrix_world
             currentNormal = Vector([(currentNormal[0] + 1.0) * 0.5, ((currentNormal[1] * -1.0) + 1.0) * 0.5, (currentNormal[2] + 1.0) * 0.5])
-            morphNormals.append(currentNormal)
-            currentVertPos = (morph.matrix_world * morph.data.vertices[i].co) - originalVertPos[i]
+            morphNormals.extend(currentNormal)
+            morphNormals.append(1.0)
+            currentVertPos = (morph.matrix_world * vert.co) - originalVertPos[i]
             currentVertPos = Vector([currentVertPos[0], -1.0 * currentVertPos[1], currentVertPos[2]])
-            offsetVertPos.append(currentVertPos)
+            offsetVertPos.extend(currentVertPos)
+            offsetVertPos.append(1.0)
 
         data.objects.remove(morph)
 
     for mesh in data.meshes:
         if mesh.users == 0:
             data.meshes.remove(mesh)
-
-    morphNormals.reverse()
-    offsetVertPos.reverse()
     
-    for i in range(len(morphNormals)):
-        
-        for idx in morphNormals[i]:
-            normalValues.append(idx)
-        
-        normalValues.append(1.0)
-        
-        for idx in offsetVertPos[i]:
-            offsetValues.append(idx)
-        
-        offsetValues.append(1.0)
-    
-    morphData = [offsetValues, normalValues]
+    morphData = [offsetVertPos, morphNormals]
     
     return morphData
     
 #create textures from morphData
 def bakeMorphData(data, exportMesh, scene, morphData):
     size = [len(exportMesh.data.vertices), len(range(scene.frame_start, scene.frame_end + 1, scene.frame_step))]
-    morphs = morphData[0]
-    normals = morphData[1]
     
     morphTexture = data.images.new(name = "morphs", width = size[0], height = size[1], alpha = True, float_buffer = True)
     normalTexture = data.images.new(name = "normals", width = size[0], height = size[1], alpha = True)
     
-    morphTexture.pixels = morphs
-    normalTexture.pixels = normals
+    morphTexture.pixels = morphData[0]
+    normalTexture.pixels = morphData[1]
 
 #called by operator on UI panel            
 def main(context):
