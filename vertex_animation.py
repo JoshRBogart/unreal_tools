@@ -78,7 +78,7 @@ def packUVs(mesh):
     for poly in mesh.data.polygons:
         
         for vertId, loopId in zip(poly.vertices, poly.loop_indices):
-            currentPos = ((1.0 - (vertId + 0.5)/numVerts))
+            currentPos = ((vertId + 0.5)/numVerts)
             mesh.data.uv_layers[1].data[loopId].uv = (currentPos, (1/255) * 128)
 
 #create mesh to export from mesh data taken on the first frame
@@ -96,9 +96,9 @@ def buildMorphData(data, morphList):
     
     originalVertPos = [morphList[0].matrix_world * vert.co for vert in morphList[0].data.vertices]
     
-    for morph in morphList:
+    for morph in reversed(morphList):
         
-        for i, vert in enumerate(reversed(morph.data.vertices)):
+        for i, vert in enumerate(morph.data.vertices):
             currentNormal = vert.normal * morph.matrix_world
             currentNormal = Vector([(currentNormal[0] + 1.0) * 0.5, ((currentNormal[1] * -1.0) + 1.0) * 0.5, (currentNormal[2] + 1.0) * 0.5])
             morphNormals.extend(currentNormal)
