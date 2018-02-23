@@ -174,7 +174,7 @@ def unregister():
     bpy.utils.unregister_class(UT_MeshMorpherPanel)
     bpy.utils.unregister_class(UT_PackMorphTargetsOperator)
     bpy.utils.unregister_class(UT_MeshMorpherProperties)
-    del bpy.types.Scene.unreal_tools.mesh_morpher_properties
+    del bpy.types.Scene.mesh_morpher_properties
     
 if __name__ == "__main__":
     register()
