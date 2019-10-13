@@ -169,7 +169,7 @@ class UT_OT_ProcessMeshesOperator(Operator):
 #create panel class for UI in object mode tool shelf
 class UT_PT_VertexAnimPanel(Panel):
     bl_label = "Vertex Animation"
-    bl_idname = "ut_vertex_anim_panel"
+    bl_idname = "UT_PT_vertex_anim_panel"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
     bl_category = "Unreal Tools"

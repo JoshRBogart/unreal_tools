@@ -110,9 +110,9 @@ def main(context):
         packVertexColors(obj)
 
 #create property group for user options
-class UT_MeshMorpherProperties(PropertyGroup):
-    store_morph1_normals = BoolProperty(name = "Store Morph 1 Normals")
-    store_pivot_location = BoolProperty(name = "Store Pivot Location")
+class UT_PT_MeshMorpherProperties(PropertyGroup):
+    store_morph1_normals : BoolProperty(name = "Store Morph 1 Normals")
+    store_pivot_location : BoolProperty(name = "Store Pivot Location")
         
 #create operator class for panel button
 class UT_OT_PackMorphTargetsOperator(Operator):
@@ -123,7 +123,7 @@ class UT_OT_PackMorphTargetsOperator(Operator):
     def poll(cls, context):
         c = context
         
-        return  len(c.selected_objects) > 0 and c.active_object.type == 'MESH' and c.mode == 'OBJECT'
+        return c.active_object and len(c.selected_objects) > 0 and c.active_object.type == 'MESH' and c.mode == 'OBJECT'
 
     def execute(self, context):
         units = context.scene.unit_settings
@@ -148,7 +148,7 @@ class UT_OT_PackMorphTargetsOperator(Operator):
 #create panel class for UI in object mode tool shelf
 class UT_PT_MeshMorpherPanel(Panel):
     bl_label = "Mesh Morpher"
-    bl_idname = "ut_mesh_morpher_panel"
+    bl_idname = "UT_PT_mesh_morpher_panel"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
     bl_category = "Unreal Tools"
@@ -167,14 +167,14 @@ class UT_PT_MeshMorpherPanel(Panel):
 
 #create register functions for adding and removing script  
 
-classes = ( UT_PT_MeshMorpherPanel, UT_OT_PackMorphTargetsOperator, UT_MeshMorpherProperties ) 
+classes = (UT_PT_MeshMorpherPanel, UT_OT_PackMorphTargetsOperator, UT_PT_MeshMorpherProperties) 
 
 def register():
     from bpy.utils import register_class
     for cls in classes:
     	register_class(cls)
 
-    bpy.types.Scene.mesh_morpher_properties = PointerProperty(type = UT_MeshMorpherProperties)
+    bpy.types.Scene.mesh_morpher_properties = PointerProperty(type = UT_PT_MeshMorpherProperties)
     
 def unregister():
     from bpy.utils import unregister_class
