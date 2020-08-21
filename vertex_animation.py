@@ -16,183 +16,196 @@
 #
 # ##### END GPL LICENSE BLOCK #####
 
+# <pep8 compliant>
+
+
 bl_info = {
     "name": "Vertex Animation",
     "author": "Joshua Bogart",
     "version": (1, 0),
-    "blender": (2, 78, 0),
-    "location": "View3D > Tool Shelf > Unreal Tools",
-    "description": "Based on the 3ds Max script created by Jonathan Lindquist at Epic Games for use in conjunction with Unreal Engine 4",
-    "warning": "Remember to keep vertex and frame count low neither should go above 8192",
-    "wiki_url": "",
+    "blender": (2, 80, 0),
+    "location": "View3D > Sidebar > Unreal Tools Tab",
+    "description": "A tool for storing per frame vertex data for use in a vertex shader.",
+    "warning": "",
+    "doc_url": "",
     "category": "Unreal Tools",
-    }
+}
+
 
 import bpy
 import bmesh
-import mathutils
-from bpy.types import Operator, Panel
-from mathutils import Vector
 
-#gets mesh data from an object in world coordinates with modifiers and transforms applied
-def copyMeshData(data, object, newBmesh, scene):
-    meshData = object.to_mesh(scene, True, 'PREVIEW')
-    
-    for vert in meshData.vertices:
-        vert.co = object.matrix_world * vert.co
-    
-    newBmesh.from_mesh(meshData)
-    data.meshes.remove(meshData)
-    
-    return newBmesh
 
-#creates a list of combined mesh data per frame from selected objects
-def buildMorphList(data, selectedObjects, scene):
-    morphList = []
-    
-    for frame in range(scene.frame_start, scene.frame_end + 1, scene.frame_step):
-        scene.frame_set(frame)
-        newBmesh = bmesh.new()
-        
-        for object in selectedObjects:
-            
-            if object.type == 'MESH':
-                copyMeshData(data, object, newBmesh, scene)
-        
-        newMesh = data.meshes.new("mesh")
-        newBmesh.to_mesh(newMesh)
-        newBmesh.free()
-        newMesh.calc_normals()
-        newMorph = data.objects.new("morph", newMesh) 
-        morphList.append(newMorph)
-        
-    return morphList
+def get_per_frame_mesh_data(context, data, objects):
+    """Return a list of combined mesh data per frame"""
+    meshes = []
+    for i in frame_range(context.scene):
+        context.scene.frame_set(i)
+        depsgraph = context.evaluated_depsgraph_get()
+        bm = bmesh.new()
+        for ob in objects:
+            eval_object = ob.evaluated_get(depsgraph)
+            me = data.meshes.new_from_object(eval_object)
+            me.transform(ob.matrix_world)
+            bm.from_mesh(me)
+            data.meshes.remove(me)
+        me = data.meshes.new("mesh")
+        bm.to_mesh(me)
+        bm.free()
+        me.calc_normals()
+        meshes.append(me)
+    return meshes
 
-#packs UVs for export mesh evenly spacing verts across V axis
-def packUVs(mesh):
-    numVerts = len(mesh.data.vertices)
-    
-    while len(mesh.data.uv_layers.items()) < 2:
-        mesh.data.uv_textures.new()
-        
-    for poly in mesh.data.polygons:
-        
-        for vertId, loopId in zip(poly.vertices, poly.loop_indices):
-            currentPos = ((vertId + 0.5)/numVerts)
-            mesh.data.uv_layers[1].data[loopId].uv = (currentPos, (1/255) * 128)
 
-#create mesh to export from mesh data taken on the first frame
-def generateExportMesh(data, morphList, scene):
-    exportMesh = morphList[0].copy()
-    exportMesh.name = "Export_Mesh"
-    scene.objects.link(exportMesh)
-    
-    return exportMesh
+def create_export_mesh_object(context, data, me):
+    """Return a mesh object with correct UVs"""
+    while len(me.uv_layers) < 2:
+        me.uv_layers.new()
+    uv_layer = me.uv_layers[1]
+    uv_layer.name = "vertex_anim"
+    for loop in me.loops:
+        uv_layer.data[loop.index].uv = (
+            (loop.vertex_index + 0.5)/len(me.vertices), 128/255
+        )
+    ob = data.objects.new("export_mesh", me)
+    context.scene.collection.objects.link(ob)
+    return ob
 
-#stores offsets for vertex coordinates and normals in world space from the morphList
-def buildMorphData(data, morphList):
-    offsetVertPos = []
-    morphNormals = []
-    
-    originalVertPos = [morphList[0].matrix_world * vert.co for vert in morphList[0].data.vertices]
-    
-    for morph in reversed(morphList):
-        
-        for i, vert in enumerate(morph.data.vertices):
-            currentNormal = vert.normal * morph.matrix_world
-            currentNormal = Vector([(currentNormal[0] + 1.0) * 0.5, ((currentNormal[1] * -1.0) + 1.0) * 0.5, (currentNormal[2] + 1.0) * 0.5])
-            morphNormals.extend(currentNormal)
-            morphNormals.append(1.0)
-            currentVertPos = (morph.matrix_world * vert.co) - originalVertPos[i]
-            currentVertPos = Vector([currentVertPos[0], -1.0 * currentVertPos[1], currentVertPos[2]])
-            offsetVertPos.extend(currentVertPos)
-            offsetVertPos.append(1.0)
 
-        data.objects.remove(morph)
+def get_vertex_data(data, meshes):
+    """Return lists of vertex offsets and normals from a list of mesh data"""
+    original = meshes[0].vertices
+    offsets = []
+    normals = []
+    for me in reversed(meshes):
+        for v in me.vertices:
+            offset = v.co - original[v.index].co
+            x, y, z = offset
+            offsets.extend((x, -y, z, 1))
+            x, y, z = v.normal
+            normals.extend(((x + 1) * 0.5, (-y + 1) * 0.5, (z + 1) * 0.5, 1))
+        if not me.users:
+            data.meshes.remove(me)
+    return offsets, normals
 
-    for mesh in data.meshes:
-        if mesh.users == 0:
-            data.meshes.remove(mesh)
-    
-    morphData = [offsetVertPos, morphNormals]
-    
-    return morphData
-    
-#create textures from morphData
-def bakeMorphData(data, exportMesh, scene, morphData):
-    size = [len(exportMesh.data.vertices), len(range(scene.frame_start, scene.frame_end + 1, scene.frame_step))]
-    
-    morphTexture = data.images.new(name = "morphs", width = size[0], height = size[1], alpha = True, float_buffer = True)
-    normalTexture = data.images.new(name = "normals", width = size[0], height = size[1], alpha = True)
-    
-    morphTexture.pixels = morphData[0]
-    normalTexture.pixels = morphData[1]
 
-#called by operator on UI panel            
-def main(context):
-    scene = context.scene
-    data = bpy.data
-    selectedObjects = context.selected_objects
-    
-    morphList = buildMorphList(data, selectedObjects, scene)    
-    exportMesh = generateExportMesh(data, morphList, scene)
-    packUVs(exportMesh)
-    morphData = buildMorphData(data, morphList)
-    bakeMorphData(data, exportMesh, scene, morphData)
+def frame_range(scene):
+    """Return a range object with with scene's frame start, end, and step"""
+    return range(scene.frame_start, scene.frame_end, scene.frame_step)
 
-#create operator class for panel button    
-class UT_ProcessMeshesOperator(Operator):
-    bl_label = "Process Animated Meshes"
-    bl_idname = "unreal_tools.process_anim_meshes"
-    
+
+def bake_vertex_data(context, data, offsets, normals, size):
+    """Stores vertex offsets and normals in seperate image textures"""
+    width, height = size
+    offset_texture = data.images.new(
+        name="offsets",
+        width=width,
+        height=height,
+        alpha=True,
+        float_buffer=True
+    )
+    normal_texture = data.images.new(
+        name="normals",
+        width=width,
+        height=height,
+        alpha=True
+    )
+    offset_texture.pixels = offsets
+    normal_texture.pixels = normals
+
+
+class OBJECT_OT_ProcessAnimMeshes(bpy.types.Operator):
+    """Store combined per frame vertex offsets and normals for all
+    selected mesh objects into seperate image textures"""
+    bl_idname = "object.process_anim_meshes"
+    bl_label = "Process Anim Meshes"
+
+    @property
+    def allowed_modifiers(self):
+        return [
+            'ARMATURE', 'CAST', 'CURVE', 'DISPLACE', 'HOOK',
+            'LAPLACIANDEFORM', 'LATTICE', 'MESH_DEFORM',
+            'SHRINKWRAP', 'SIMPLE_DEFORM', 'SMOOTH',
+            'CORRECTIVE_SMOOTH', 'LAPLACIANSMOOTH',
+            'SURFACE_DEFORM', 'WARP', 'WAVE',
+        ]
+
     @classmethod
     def poll(cls, context):
-        return True in [object.type == 'MESH' for object in context.selected_objects] and context.mode == 'OBJECT'
-    
+        ob = context.active_object
+        return ob and ob.type == 'MESH' and ob.mode == 'OBJECT'
+
     def execute(self, context):
         units = context.scene.unit_settings
-        
+        data = bpy.data
+        objects = [ob for ob in context.selected_objects if ob.type == 'MESH']
+        vertex_count = sum([len(ob.data.vertices) for ob in objects])
+        frame_count = len(frame_range(context.scene))
+        for ob in objects:
+            for mod in ob.modifiers:
+                if mod.type not in self.allowed_modifiers:
+                    self.report(
+                        {'ERROR'},
+                        f"Objects with {mod.type.title()} modifiers are not allowed!"
+                    )
+                    return {'CANCELLED'}
         if units.system != 'METRIC' or round(units.scale_length, 2) != 0.01:
-            
-            self.report({'ERROR'}, "Scene units must be Metric with a Unit Scale of 0.01!")
-        
+            self.report(
+                {'ERROR'},
+                "Scene Unit must be Metric with a Unit Scale of 0.01!"
+            )
+            return {'CANCELLED'}        
+        if vertex_count > 8192:
+            self.report(
+                {'ERROR'},
+                f"Vertex count of {vertex_count :,}, execedes limit of 8,192!"
+            )
             return {'CANCELLED'}
-                        
-        else:
-            main(context)
-            
-            return {'FINISHED'}
+        if frame_count > 8192:
+            self.report(
+                {'ERROR'},
+                f"Frame count of {frame_count :,}, execedes limit of 8,192!"
+            )
+            return {'CANCELLED'}
+        meshes = get_per_frame_mesh_data(context, data, objects)
+        export_mesh_data = meshes[0].copy()
+        create_export_mesh_object(context, data, export_mesh_data)
+        offsets, normals = get_vertex_data(data, meshes)
+        texture_size = vertex_count, frame_count
+        bake_vertex_data(context, data, offsets, normals, texture_size)
+        return {'FINISHED'}
 
-#create panel class for UI in object mode tool shelf
-class UT_VertexAnimPanel(Panel):
+
+class VIEW3D_PT_VertexAnimation(bpy.types.Panel):
+    """Creates a Panel in 3D Viewport"""
     bl_label = "Vertex Animation"
-    bl_idname = "ut_vertex_anim_panel"
+    bl_idname = "VIEW3D_PT_vertex_animation"
     bl_space_type = 'VIEW_3D'
-    bl_region_type = 'TOOLS'
+    bl_region_type = 'UI'
     bl_category = "Unreal Tools"
-    bl_context = "objectmode"
-    
-    def draw(self, context):
-        scene = context.scene
-        layout = self.layout
-               
-        col = layout.column(align = True)
-        col.prop(scene, "frame_start")
-        col.prop(scene, "frame_end")
-        col.prop(scene, "frame_step")
-        
-        row = layout.row()
-        row.scale_y = 1.5
-        row.operator("unreal_tools.process_anim_meshes")
 
-#create register functions for adding and removing script          
+    def draw(self, context):
+        layout = self.layout
+        layout.use_property_split = True
+        layout.use_property_decorate = False
+        scene = context.scene
+        col = layout.column(align=True)
+        col.prop(scene, "frame_start", text="Frame Start")
+        col.prop(scene, "frame_end", text="End")
+        col.prop(scene, "frame_step", text="Step")
+        row = layout.row()
+        row.operator("object.process_anim_meshes")
+
+
 def register():
-    bpy.utils.register_class(UT_VertexAnimPanel)
-    bpy.utils.register_class(UT_ProcessMeshesOperator)
-    
+    bpy.utils.register_class(OBJECT_OP_ProcessAnimMeshes)
+    bpy.utils.register_class(VIEW3D_PT_VertexAnimation)
+
+
 def unregister():
-    bpy.utils.unregister_class(UT_VertexAnimPanel)
-    bpy.utils.unregister_class(UT_ProcessMeshesOperator)
-    
+    bpy.utils.unregister_class(OBJECT_OP_ProcessAnimMeshes)
+    bpy.utils.unregister_class(VIEW3D_PT_VertexAnimation)
+
+
 if __name__ == "__main__":
     register()
