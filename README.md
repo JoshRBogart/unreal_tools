@@ -1,10 +1,48 @@
-# Blender-UnrealTools
-Vertex Animation-
-This script creates a new panel in the object mode tool shelf as well as a new operator.
-When called the operator will take all selected mesh objects in the active scene and copy their mesh data per frame.
-The difference in each vertex location and normals in world space is then stored as color data in two images respectfully.
-A new mesh is created for export with it's second UV channel's vertices spaced evenly across the V axis.
+# Unreal Tools
 
-Mesh Morpher-
-This script creates a new panel in the object mode tool shelf as well as a new operator.
-When called the operator will (based on user settings) store shape key vertex offset data in a mesh's UV channels, and store normal data in it's vertex colors.
+##### Blender 2.83
+
+## Description
+A series of tools used to store vertex data in various ways. The data can then used in a game engine to animate meshes via a vertex shader.
+
+### Mesh Morpher
+Used to store vertex offsets between a meshes shape keys in it's UV layers. Optionally vertex normals from it's second shape key can be stored in it's vertex colors.
+
+### Vertex Animation
+Used to store vertex offsets and normals of selected mesh objects per frame into image textures.
+
+## Getting Started
+These tools can be installed as add-ons or ran as scripts. Each tool has a panel located in the 3D View's sidebar under the Unreal Tools tab.
+
+### Installing as an Add-on
+First download and unzip files into desired directory.
+
+While in Blender open the user preferences window.
+
+**Edit > Preferences**
+
+Navigate the the **add-ons** tab.
+
+Click the option to **install**.
+
+A file browser will open.
+
+Navigate to directory containing the tools.
+    
+Select the tool you want install.
+
+Then click **install add-on**.
+
+### Running as a Script
+First download and unzip files into desired directory.
+
+While in Blender use the text editor to open the tool you want to use.
+
+Then either click the run script operator (the **arrow** icon in header) or use **alt+p** shortcut.
+
+## Authors
+
+* **Joshua Bogart**
+
+## Acknowledgments
+* Adapted for Blender from 3ds Max scripts created by **Jonathan Lindquist** at **Epic Games**.
