@@ -23,7 +23,7 @@ bl_info = {
     "name": "Vertex Animation",
     "author": "Joshua Bogart",
     "version": (1, 0),
-    "blender": (2, 80, 0),
+    "blender": (2, 83, 0),
     "location": "View3D > Sidebar > Unreal Tools Tab",
     "description": "A tool for storing per frame vertex data for use in a vertex shader.",
     "warning": "",
