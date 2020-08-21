@@ -16,165 +16,160 @@
 #
 # ##### END GPL LICENSE BLOCK #####
 
+# <pep8 compliant>
+
+
 bl_info = {
     "name": "Mesh Morpher",
     "author": "Joshua Bogart",
     "version": (1, 0),
-    "blender": (2, 78, 0),
-    "location": "View3D > Tool Shelf > Unreal Tools",
-    "description": "Based on the 3ds Max script created by Jonathan Lindquist at Epic Games for use in conjunction with Unreal Engine 4",
-    "warning": "This script stores data in a meshes UV layers and Vertex Colors. If storing 2 shape keys or 1 and the object's pivot location UV layers 2-4 will be overwritten while preserving layer 1, 4 or higher."
-    "If not storing either 2 shape keys or the object's pivot location layer 2 will also be preserved. If storing morph 2 normals object's vertex color layer will be overwritten",
-    "wiki_url": "",
+    "blender": (2, 80, 0),
+    "location": "View3D > Sidebar > Unreal Tools Tab",
+    "description": "A tool for storing shape key data for use in a vertex shader.",
+    "warning": "",
+    "doc_url": "",
     "category": "Unreal Tools",
-    }
+}
+
 
 import bpy
-import mathutils
-from bpy.types import Operator, Panel, PropertyGroup
-from bpy.props import BoolProperty, PointerProperty
-from mathutils import Vector
 
-#get shape key vertex offsets
-def buildOffsetList(obj, props):
-    offsetList = []
-    
-    originalVertPos = [v.co for v in obj.data.shape_keys.key_blocks[0].data]
-    targetVertPos1 = [v.co for v in obj.data.shape_keys.key_blocks[1].data]  
-    vertOffset1 = [targetVertPos1[i] - originalVertPos[i] for i in range(len(originalVertPos))]
-    offsetList.append(vertOffset1)
-    
-    if props.store_pivot_location == False and len(obj.data.shape_keys.key_blocks) > 2:
-        targetVertPos2 = [v.co for v in obj.data.shape_keys.key_blocks[2].data]
-        vertOffset2 = [targetVertPos2[i] - originalVertPos[i] for i in range(len(originalVertPos))]
-        offsetList.append(vertOffset2)
-        
-    else:
-        vertOffset2 = [obj.location for i in range(len(originalVertPos))]
-        offsetList.append(vertOffset2)
-    
-    return offsetList
 
-#store normals in vertex colors
-def packVertexColors(obj):
-    
-    morphNormals = [i for i in zip(*(iter(obj.data.shape_keys.key_blocks[1].normals_vertex_get()),)*3)]
-    
-    for id, normal in enumerate(morphNormals):
-        currentNormal = normal
-        currentNormal = ((currentNormal[0] + 1.0) * 0.5, ((currentNormal[1] * -1.0) + 1.0) * 0.5, (currentNormal[2] + 1.0) * 0.5)
-        morphNormals[id] = currentNormal
-    
-    while len(obj.data.vertex_colors) < 1:
-        obj.data.vertex_colors.new()
-        
-    for poly in obj.data.polygons:
-        
-        for vertId, loopId in zip(poly.vertices, poly.loop_indices):
-            obj.data.vertex_colors[0].data[loopId].color = morphNormals[vertId]
+def pack_normals(me):
+    """Stores normals in a given mesh's vertex colors"""
+    if not me.vertex_colors:
+        me.vertex_colors.new()
+    col = me.vertex_colors[0]
+    col.name = "normals"
+    key = me.shape_keys.key_blocks[1]
+    normals = list(zip(*[iter(key.normals_vertex_get())]*3))
+    for loop in me.loops:
+        r, g, b = normals[loop.vertex_index]
+        col.data[loop.index].color = ((r + 1) * 0.5, (-g + 1) * 0.5, (b + 1) * 0.5, 1)
 
-#store offsets in UVs
-def packUVs(obj, offsetList, props):
-    vertOffset1 = offsetList[0]
-    
-    if props.store_pivot_location == True or len(obj.data.shape_keys.key_blocks) > 2:
-        vertOffset2 = offsetList[1]
-    
-    while len(obj.data.uv_layers.items()) < 4:
-        obj.data.uv_textures.new()
-    
-    for poly in obj.data.polygons:
-    
-        for vertId, loopId in zip(poly.vertices, poly.loop_indices):
-            
-            if props.store_pivot_location == True or len(obj.data.shape_keys.key_blocks) > 2:
-                obj.data.uv_layers[1].data[loopId].uv = (vertOffset2[vertId][0], 1.0 - (vertOffset2[vertId][1] * -1.0))
-                obj.data.uv_layers[2].data[loopId].uv = (vertOffset2[vertId][2], 1.0 - vertOffset1[vertId][0])
-                obj.data.uv_layers[3].data[loopId].uv = (vertOffset1[vertId][1] * -1.0, 1.0 - vertOffset1[vertId][2])
-                
-            else:
-                obj.data.uv_layers[2].data[loopId].uv = (0.0, 1.0 - vertOffset1[vertId][0])
-                obj.data.uv_layers[3].data[loopId].uv = (vertOffset1[vertId][1] * -1.0, 1.0 - vertOffset1[vertId][2])
-    
-#called by operator on UI panel
-def main(context):
-    obj = context.object
-    props = context.scene.mesh_morpher_properties
-    
-    offsetList = buildOffsetList(obj, props)
-    packUVs(obj, offsetList, props)
-    
-    if props.store_morph1_normals == True:
-        packVertexColors(obj)
 
-#create property group for user options
-class UT_MeshMorpherProperties(PropertyGroup):
-    store_morph1_normals = BoolProperty(name = "Store Morph 1 Normals")
-    store_pivot_location = BoolProperty(name = "Store Pivot Location")
-        
-#create operator class for panel button
-class UT_PackMorphTargetsOperator(Operator):
-    bl_label = "Pack Morph Targets"
-    bl_idname = "unreal_tools.pack_morph_targets"
-    
+def get_shape_key_offsets(shape_keys, two_shape_keys=False):
+    """Return a list of vertex offsets between shape keys"""
+    keys = shape_keys.key_blocks
+    offsets = []
+    original = keys[0].data
+    target = keys[1].data
+    offset = [v1.co - v2.co for v1, v2 in zip(target, original)]
+    offsets.append(offset)
+    if two_shape_keys:
+        target = keys[2].data
+        offset = [v1.co - v2.co for v1, v2 in zip(target, original)]
+        offsets.append(offset)
+    return offsets
+
+
+def pack_offsets(ob, offsets):
+    """Stores shape key vertex offsets in mesh's UVs"""
+    me = ob.data
+    while len(me.uv_layers) < 4:
+        me.uv_layers.new()
+    for loop in me.loops:
+        x1, y1, z1 = offsets[0][loop.vertex_index]
+        if len(offsets) > 1:
+            offset = offsets[1][loop.vertex_index]
+        else:
+            offset = ob.location
+        x2, y2, z2 = offset
+        me.uv_layers[1].data[loop.index].uv = (x2, 1 - (-y2))
+        me.uv_layers[2].data[loop.index].uv = (z2, 1 - x1)
+        me.uv_layers[3].data[loop.index].uv = (-y1, 1 - z1)
+
+
+class MeshMorpherSettings(bpy.types.PropertyGroup):
+    store_shape_key1_normals: bpy.props.BoolProperty(
+        name="First Shape Key Normals",
+        description="Store first shape key's vertex normals in vertex colors",
+        default=True
+    )
+    two_shape_keys: bpy.props.BoolProperty(
+        name="Two Shape Keys",
+        description="Store vertex offsets for first and second shape keys",
+        default=False
+    )
+
+
+class OBJECT_OT_ProcessShapeKeys(bpy.types.Operator):
+    """Store object's shape key offsets in it's UV layers"""
+    bl_idname = "object.process_shape_keys"
+    bl_label = "Process Shape Keys"
+
+    store_shape_key1_normals: bpy.props.BoolProperty(
+        name="First Shape Key Normals",
+        default=True
+    )
+    two_shape_keys: bpy.props.BoolProperty(
+        name="Two Shape Keys",
+        default=False
+    )
+
     @classmethod
     def poll(cls, context):
-        c = context
-        
-        return  len(c.selected_objects) > 0 and c.active_object.type == 'MESH' and c.mode == 'OBJECT'
+        ob = context.active_object
+        return ob and ob.type == 'MESH' and ob.mode == 'OBJECT'
+
 
     def execute(self, context):
         units = context.scene.unit_settings
-        
+        ob = context.object
+        shape_keys = ob.data.shape_keys
         if units.system != 'METRIC' or round(units.scale_length, 2) != 0.01:
-            
-            self.report({'ERROR'}, "Scene units must be Metric with a Unit Scale of 0.01!")
-            
+            self.report(
+                {'ERROR'},
+                "Scene Units must be Metric with a Unit Scale of 0.01!"
+            )
             return {'CANCELLED'}
-        
-        elif not context.object.data.shape_keys or len(context.object.data.shape_keys.key_blocks) < 2:
-            
+        if not shape_keys:
+            self.report({'ERROR'}, "Object has no shape keys!")
+            return {'CANCELLED'}
+        if len(shape_keys.key_blocks) < 2 + self.two_shape_keys:
             self.report({'ERROR'}, "Object needs additional shape keys!")
-            
             return {'CANCELLED'}
-        
-        else:
-            main(context)
-            
-            return {'FINISHED'}
-        
-#create panel class for UI in object mode tool shelf
-class UT_MeshMorpherPanel(Panel):
+        if self.store_shape_key1_normals:
+            pack_normals(ob.data)
+        offsets = get_shape_key_offsets(shape_keys, self.two_shape_keys)
+        pack_offsets(ob, offsets)
+        return {'FINISHED'}
+
+
+class VIEW3D_PT_MeshMorpher(bpy.types.Panel):
+    """Creates a Panel in 3D Viewport"""
     bl_label = "Mesh Morpher"
-    bl_idname = "ut_mesh_morpher_panel"
+    bl_idname = "VIEW3D_PT_mesh_morpher"
     bl_space_type = 'VIEW_3D'
-    bl_region_type = 'TOOLS'
+    bl_region_type = 'UI'
     bl_category = "Unreal Tools"
-    
+
     def draw(self, context):
-        scene = context.scene
         layout = self.layout
-      
-        col = layout.column(align = True)
-        col.prop(scene.mesh_morpher_properties, "store_morph1_normals")
-        col.prop(scene.mesh_morpher_properties, "store_pivot_location")
+        col = layout.column()
+        props = context.scene.mesh_morpher_settings
+        col.prop(props, "store_shape_key1_normals")
+        col.prop(props, "two_shape_keys")
+        op = col.operator("object.process_shape_keys")
+        op.store_shape_key1_normals = props.store_shape_key1_normals
+        op.two_shape_keys = props.two_shape_keys
 
-        row = layout.row()
-        row.scale_y = 1.5
-        row.operator("unreal_tools.pack_morph_targets")
 
-#create register functions for adding and removing script          
 def register():
-    bpy.utils.register_class(UT_MeshMorpherPanel)
-    bpy.utils.register_class(UT_PackMorphTargetsOperator)
-    bpy.utils.register_class(UT_MeshMorpherProperties)
-    bpy.types.Scene.mesh_morpher_properties = PointerProperty(type = UT_MeshMorpherProperties)
-    
+    bpy.utils.register_class(MeshMorpherSettings)
+    bpy.utils.register_class(OBJECT_OP_ProcessShapeKeys)
+    bpy.utils.register_class(VIEW3D_PT_MeshMorpher)
+    bpy.types.Scene.mesh_morpher_settings = bpy.props.PointerProperty(
+        type=MeshMorpherSettings
+    )
+
+
 def unregister():
-    bpy.utils.unregister_class(UT_MeshMorpherPanel)
-    bpy.utils.unregister_class(UT_PackMorphTargetsOperator)
-    bpy.utils.unregister_class(UT_MeshMorpherProperties)
-    del bpy.types.Scene.mesh_morpher_properties
-    
+    bpy.utils.unregister_class(MeshMorpherSettings)
+    bpy.utils.unregister_class(OBJECT_OP_ProcessShapeKeys)
+    bpy.utils.unregister_class(VIEW3D_PT_MeshMorpher)
+    del bpy.types.Scene.mesh_morpher_settings
+
+
 if __name__ == "__main__":
     register()
