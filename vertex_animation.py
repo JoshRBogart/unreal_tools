@@ -198,12 +198,12 @@ class VIEW3D_PT_VertexAnimation(bpy.types.Panel):
 
 
 def register():
-    bpy.utils.register_class(OBJECT_OP_ProcessAnimMeshes)
+    bpy.utils.register_class(OBJECT_OT_ProcessAnimMeshes)
     bpy.utils.register_class(VIEW3D_PT_VertexAnimation)
 
 
 def unregister():
-    bpy.utils.unregister_class(OBJECT_OP_ProcessAnimMeshes)
+    bpy.utils.unregister_class(OBJECT_OT_ProcessAnimMeshes)
     bpy.utils.unregister_class(VIEW3D_PT_VertexAnimation)
 
 
