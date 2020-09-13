@@ -157,7 +157,7 @@ class VIEW3D_PT_MeshMorpher(bpy.types.Panel):
 
 def register():
     bpy.utils.register_class(MeshMorpherSettings)
-    bpy.utils.register_class(OBJECT_OP_ProcessShapeKeys)
+    bpy.utils.register_class(OBJECT_OT_ProcessShapeKeys)
     bpy.utils.register_class(VIEW3D_PT_MeshMorpher)
     bpy.types.Scene.mesh_morpher_settings = bpy.props.PointerProperty(
         type=MeshMorpherSettings
@@ -166,7 +166,7 @@ def register():
 
 def unregister():
     bpy.utils.unregister_class(MeshMorpherSettings)
-    bpy.utils.unregister_class(OBJECT_OP_ProcessShapeKeys)
+    bpy.utils.unregister_class(OBJECT_OT_ProcessShapeKeys)
     bpy.utils.unregister_class(VIEW3D_PT_MeshMorpher)
     del bpy.types.Scene.mesh_morpher_settings
 
