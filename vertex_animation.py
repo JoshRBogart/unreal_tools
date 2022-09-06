@@ -131,7 +131,7 @@ class OBJECT_OT_ProcessAnimMeshes(bpy.types.Operator):
     def allowed_modifiers(self):
         return [
             'ARMATURE', 'CAST', 'CURVE', 'DISPLACE', 'HOOK',
-            'LAPLACIANDEFORM', 'LATTICE', 'MESH_DEFORM',
+            'LAPLACIANDEFORM', 'LATTICE', 'MESH_DEFORM', 'MESH_SEQUENCE_CACHE',
             'SHRINKWRAP', 'SIMPLE_DEFORM', 'SMOOTH',
             'CORRECTIVE_SMOOTH', 'LAPLACIANSMOOTH',
             'SURFACE_DEFORM', 'WARP', 'WAVE',
