@@ -211,6 +211,13 @@ class OBJECT_OT_ProcessAnimMeshes(bpy.types.Operator):
                 f"Frame count of {frame_count :,}, execedes limit of 8,192!"
             )
             return {'CANCELLED'}
+
+        # Store the current display device
+        current_display_device = bpy.context.scene.display_settings.display_device
+
+        # Set display device to 'None'
+        bpy.context.scene.display_settings.display_device = 'None'
+
         myname = bpy.context.active_object.name
         meshes = get_per_frame_mesh_data(context, data, objects)
         export_mesh_data = meshes[0].copy()
@@ -219,6 +226,10 @@ class OBJECT_OT_ProcessAnimMeshes(bpy.types.Operator):
         texture_size = vertex_count, frame_count
         bake_vertex_data(context, data, offsets, normals, texture_size, myname)
         export_mesh(context, obj, myname)
+
+        # Reset display device to its original value
+        bpy.context.scene.display_settings.display_device = current_display_device
+
         return {'FINISHED'}
 
 
