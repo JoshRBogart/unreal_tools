@@ -7,6 +7,7 @@ using namespace std;
 // @param[default=1.0] normalScale
 // @param[default=1.0] normalTile
 // @param[default=1.0] speed
+// @param[default=1.0] scaleFactor
 // @return color
 // @return position
 void main(  optional<std::Texture2d> matcapTex,
@@ -15,6 +16,7 @@ void main(  optional<std::Texture2d> matcapTex,
             optional<std::Texture2d> positionLow,
             optional<std::Texture2d> normalHigh,
             optional<std::Texture2d> normalLow,
+            optional<float> scaleFactor,
             float normalScale,
             float normalTile,
             float speed,
@@ -29,5 +31,5 @@ void main(  optional<std::Texture2d> matcapTex,
   vec2 calculatedNormal = calculateNormal(normalTex, tangentFrame, normalScale, normalTile);
 
   Color = MatCapColor(matcapTex, calculatedNormal);
-  Position = VATposition(positionHigh, positionLow, frame);
+  Position = VATposition(positionHigh, positionLow, frame, scaleFactor);
 }

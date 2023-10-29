@@ -1,9 +1,9 @@
 {
   "modelName": "texture",
   "name": "Cube_position_high",
-  "identifier": "texture:434996-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+  "identifier": "texture:98219-59475738-5664-4764-8ac9-c50ef01c8d34",
   "alphaPremultiplicationMode": "should_premultiply",
-  "assetDataHash": "4c7ec9f51e18cb43f6fe7c9482937e83",
+  "assetDataHash": "dc6923663800a82ae3827e059093c708",
   "assetLocator": "textures/Cube_position_high.png",
   "colorEncoding": "linear",
   "compressionQuality": "high",
@@ -11,9 +11,9 @@
   "excludeDuringExport": false,
   "excludeFromPackage": false,
   "exportConfigurations": [
-    "textureExportConfig:435566-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
-    "textureExportConfig:435574-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
-    "textureExportConfig:435582-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d"
+    "textureExportConfig:98303-59475738-5664-4764-8ac9-c50ef01c8d34",
+    "textureExportConfig:98311-59475738-5664-4764-8ac9-c50ef01c8d34",
+    "textureExportConfig:98319-59475738-5664-4764-8ac9-c50ef01c8d34"
   ],
   "filter": "bilinear",
   "hasOfflineMipmaps": false,
@@ -29,11 +29,11 @@
     {
       "modelName": "data_texture_metadata_model",
       "name": "data_texture_metadata_model0",
-      "assetDataHash": "4c7ec9f51e18cb43f6fe7c9482937e83",
-      "colorCount": 7586,
+      "assetDataHash": "dc6923663800a82ae3827e059093c708",
+      "colorCount": 20078,
       "detectedAlphaChannel": "no_alpha",
       "detectedOriginalFormat": "png",
-      "entropyOfDistribution": 11.283433212344077,
+      "entropyOfDistribution": 13.5536907426609,
       "pixelsHigh": 99,
       "pixelsWide": 296
     }

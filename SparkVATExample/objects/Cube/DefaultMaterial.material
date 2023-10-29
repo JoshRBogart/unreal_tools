@@ -1,8 +1,8 @@
 {
   "modelName": "dependent_material_model",
   "name": "DefaultMaterial",
-  "identifier": "dependent_material_model:435002-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
-  "sourceIdentifier": "asset_collection_model:435022-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+  "identifier": "dependent_material_model:98225-59475738-5664-4764-8ac9-c50ef01c8d34",
+  "sourceIdentifier": "asset_collection_model:98245-59475738-5664-4764-8ac9-c50ef01c8d34",
   "alphaTestEnabled": false,
   "alphaTestThreshold": 0,
   "blendMode": "replace",

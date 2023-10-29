@@ -62,7 +62,7 @@
           "hasTextureParameters": false,
           "isTextureIdentifierEnabled": false,
           "textureFilter": "bilinear",
-          "textureIdentifier": "texture:434996-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+          "textureIdentifier": "texture:98219-59475738-5664-4764-8ac9-c50ef01c8d34",
           "textureWrapModeU": "repeat",
           "textureWrapModeV": "repeat",
           "type": "texture"
@@ -74,7 +74,7 @@
           "hasTextureParameters": false,
           "isTextureIdentifierEnabled": false,
           "textureFilter": "bilinear",
-          "textureIdentifier": "texture:435000-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+          "textureIdentifier": "texture:98223-59475738-5664-4764-8ac9-c50ef01c8d34",
           "textureWrapModeU": "repeat",
           "textureWrapModeV": "repeat",
           "type": "texture"
@@ -86,7 +86,7 @@
           "hasTextureParameters": false,
           "isTextureIdentifierEnabled": false,
           "textureFilter": "bilinear",
-          "textureIdentifier": "texture:434988-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+          "textureIdentifier": "texture:98211-59475738-5664-4764-8ac9-c50ef01c8d34",
           "textureWrapModeU": "repeat",
           "textureWrapModeV": "repeat",
           "type": "texture"
@@ -98,10 +98,24 @@
           "hasTextureParameters": false,
           "isTextureIdentifierEnabled": false,
           "textureFilter": "bilinear",
-          "textureIdentifier": "texture:434992-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+          "textureIdentifier": "texture:98215-59475738-5664-4764-8ac9-c50ef01c8d34",
           "textureWrapModeU": "repeat",
           "textureWrapModeV": "repeat",
           "type": "texture"
+        },
+        {
+          "modelName": "composed_material_parameter_model",
+          "name": "scaleFactor",
+          "identifier": "composed_material_parameter_model:94307-59475738-5664-4764-8ac9-c50ef01c8d34",
+          "hasTextureParameters": false,
+          "isTextureIdentifierEnabled": false,
+          "rawValue": [
+            0.3
+          ],
+          "textureFilter": "bilinear",
+          "textureWrapModeU": "repeat",
+          "textureWrapModeV": "repeat",
+          "type": "float"
         },
         {
           "modelName": "composed_material_parameter_model",
@@ -110,7 +124,7 @@
           "hasTextureParameters": false,
           "isTextureIdentifierEnabled": false,
           "rawValue": [
-            1
+            0.2
           ],
           "textureFilter": "bilinear",
           "textureWrapModeU": "repeat",

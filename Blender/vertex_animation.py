@@ -87,14 +87,26 @@ def create_export_mesh_object(context, data, me):
     return ob
 
 
-def get_vertex_data(data, meshes):
+def get_vertex_data(context, data, meshes):
     """Return lists of vertex offsets and normals from a list of mesh data"""
     original = meshes[0].vertices
     offsets = []
     normals = []
+
+    # First, find the maximum offset to use for normalization
+    max_offset_length = 0
     for me in reversed(meshes):
         for v in me.vertices:
-            offset = v.co - original[v.index].co
+            offset_length = (v.co - original[v.index].co).length
+            if offset_length > max_offset_length:
+                max_offset_length = offset_length
+
+    context.scene.scale_factor = max_offset_length
+
+    for me in reversed(meshes):
+        for v in me.vertices:
+            offset = (v.co - original[v.index].co) / max_offset_length
+            # offset = v.co - original[v.index].co
             x, y, z = offset
             offsets.extend(((x + 1) * 0.5, (- y + 1) * 0.5, (z + 1) * 0.5, 1))
             x, y, z = v.normal
@@ -102,7 +114,6 @@ def get_vertex_data(data, meshes):
         if not me.users:
             data.meshes.remove(me)
     return offsets, normals
-
 
 
 def frame_range(scene):
@@ -204,7 +215,7 @@ class OBJECT_OT_ProcessAnimMeshes(bpy.types.Operator):
         meshes = get_per_frame_mesh_data(context, data, objects)
         export_mesh_data = meshes[0].copy()
         obj = create_export_mesh_object(context, data, export_mesh_data)
-        offsets, normals = get_vertex_data(data, meshes)
+        offsets, normals = get_vertex_data(context, data, meshes)
         texture_size = vertex_count, frame_count
         bake_vertex_data(context, data, offsets, normals, texture_size, myname)
         export_mesh(context, obj, myname)
@@ -229,6 +240,7 @@ class VIEW3D_PT_VertexAnimation(bpy.types.Panel):
         col.prop(scene, "frame_end", text="End")
         col.prop(scene, "frame_step", text="Step")
         col.prop(scene, "output_dir", text="Output Directory")
+        col.prop(scene, "scale_factor", text="Scale Factor")
         row = layout.row()
         row.operator("object.process_anim_meshes")
 
@@ -242,12 +254,18 @@ def register():
         default="//",
         description="Directory where the output files will be saved"
     )
+    bpy.types.Scene.scale_factor = bpy.props.FloatProperty(
+        name="Scale Factor",
+        description="Maximum vertex offset length used for normalization",
+        default=1.0  # A reasonable default value
+    )
 
 
 def unregister():
     bpy.utils.unregister_class(OBJECT_OT_ProcessAnimMeshes)
     bpy.utils.unregister_class(VIEW3D_PT_VertexAnimation)
     del bpy.types.Scene.output_dir
+    del bpy.types.Scene.scale_factor
 
 
 if __name__ == "__main__":

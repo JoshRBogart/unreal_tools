@@ -82,9 +82,6 @@
           "sectionFileLocation": "materials/SparkVATMaterial.material"
         },
         {
-          "sectionFileLocation": "materials/MatCap-2.material"
-        },
-        {
           "sectionFileLocation": "objects/Cube/DefaultMaterial.material"
         }
       ]
@@ -96,9 +93,9 @@
         {
           "modelName": "gltf",
           "name": "export_mesh",
-          "identifier": "gltf:435012-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
-          "sourceIdentifier": "master3_d_object_model:435018-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
-          "assetLocator": "435013-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d.glb",
+          "identifier": "gltf:98235-59475738-5664-4764-8ac9-c50ef01c8d34",
+          "sourceIdentifier": "master3_d_object_model:98241-59475738-5664-4764-8ac9-c50ef01c8d34",
+          "assetLocator": "98236-59475738-5664-4764-8ac9-c50ef01c8d34.glb",
           "isExternalAsset": false
         }
       ]
@@ -134,18 +131,18 @@
         {
           "modelName": "asset_collection_model",
           "name": "Cube",
-          "identifier": "asset_collection_model:435022-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
-          "assetDataHash": "425509221916c35661563556d86f9c27",
+          "identifier": "asset_collection_model:98245-59475738-5664-4764-8ac9-c50ef01c8d34",
+          "assetDataHash": "731283dd5dbad599a795fc1d95f8c57d",
           "assetLocator": "objects/Cube/Cube.fbx",
           "authoringTool": "Blender (stable FBX IO) - 3.1.2 - 4.29.1",
           "excludeDuringExport": true,
           "isExternalAsset": true,
-          "master3DInstanceSourceHash": "425509221916c35661563556d86f9c27",
+          "master3DInstanceSourceHash": "731283dd5dbad599a795fc1d95f8c57d",
           "children": [
             {
               "modelName": "unsupportedFeatures",
               "name": "unsupportedFeatures0",
-              "identifier": "unsupportedFeatures:435020-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+              "identifier": "unsupportedFeatures:98243-59475738-5664-4764-8ac9-c50ef01c8d34",
               "namesForFeatureType": {
                 "Material": [
                   "DefaultMaterial"
@@ -168,7 +165,7 @@
           "modelName": "shader_code_asset_model",
           "name": "SparkVAT",
           "identifier": "shader_code_asset_model:405794-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
-          "assetDataHash": "22bdfd2467c2c5b94f755802bb3a9bab",
+          "assetDataHash": "62ab02a088713314b7cdc791249edff1",
           "assetLocator": "shaders/SparkVAT.sca",
           "builtinDeps": [
             "texture2d",
@@ -177,15 +174,15 @@
           ],
           "externalDeps": [],
           "isExternalAsset": true,
-          "moduleName": "sparkShaderCode1555633012574414856",
-          "wordsHash": 5194651476530597835,
+          "moduleName": "sparkShaderCode43232320167594523",
+          "wordsHash": -5184170139512268549,
           "children": [
             {
               "modelName": "shader_interface_model",
               "identifier": "shader_interface_model:405796-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
               "description": "Calculate Tangent",
               "functionName": "user::main",
-              "linkageName": "sparkShaderCode1555633012574414856",
+              "linkageName": "sparkShaderCode43232320167594523",
               "children": [
                 {
                   "modelName": "shaderInputPorts",
@@ -194,7 +191,7 @@
                     {
                       "modelName": "shader_input_port_model",
                       "name": "diffuse",
-                      "identifier": "shader_input_port_model:420753-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_input_port_model:97461-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "defaultValue": {
                         "type": 0,
                         "value": 0
@@ -205,7 +202,7 @@
                     {
                       "modelName": "shader_input_port_model",
                       "name": "positionHigh",
-                      "identifier": "shader_input_port_model:420755-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_input_port_model:97463-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "defaultValue": {
                         "type": 0,
                         "value": 0
@@ -216,7 +213,7 @@
                     {
                       "modelName": "shader_input_port_model",
                       "name": "positionLow",
-                      "identifier": "shader_input_port_model:420757-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_input_port_model:97465-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "defaultValue": {
                         "type": 0,
                         "value": 0
@@ -227,7 +224,7 @@
                     {
                       "modelName": "shader_input_port_model",
                       "name": "normalHigh",
-                      "identifier": "shader_input_port_model:420759-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_input_port_model:97467-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "defaultValue": {
                         "type": 0,
                         "value": 0
@@ -238,7 +235,7 @@
                     {
                       "modelName": "shader_input_port_model",
                       "name": "normalLow",
-                      "identifier": "shader_input_port_model:420761-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_input_port_model:97469-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "defaultValue": {
                         "type": 0,
                         "value": 0
@@ -249,7 +246,7 @@
                     {
                       "modelName": "shader_input_port_model",
                       "name": "matcapTex",
-                      "identifier": "shader_input_port_model:420763-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_input_port_model:97471-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "defaultValue": {
                         "type": 0,
                         "value": 0
@@ -260,7 +257,17 @@
                     {
                       "modelName": "shader_input_port_model",
                       "name": "speed",
-                      "identifier": "shader_input_port_model:420765-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_input_port_model:97473-59475738-5664-4764-8ac9-c50ef01c8d34",
+                      "defaultValue": {
+                        "type": 0,
+                        "value": 1
+                      },
+                      "description": ""
+                    },
+                    {
+                      "modelName": "shader_input_port_model",
+                      "name": "scaleFactor",
+                      "identifier": "shader_input_port_model:97475-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "defaultValue": {
                         "type": 0,
                         "value": 1
@@ -276,21 +283,21 @@
                     {
                       "modelName": "shader_output_port_model",
                       "name": "return",
-                      "identifier": "shader_output_port_model:420767-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_output_port_model:97477-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "description": "position",
                       "valueType": "void_return"
                     },
                     {
                       "modelName": "shader_output_port_model",
                       "name": "Color",
-                      "identifier": "shader_output_port_model:420769-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_output_port_model:97479-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "description": "",
                       "valueType": "vec4"
                     },
                     {
                       "modelName": "shader_output_port_model",
                       "name": "Position",
-                      "identifier": "shader_output_port_model:420771-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_output_port_model:97481-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "description": "",
                       "valueType": "vec4"
                     }
@@ -312,7 +319,7 @@
                     {
                       "modelName": "shader_input_port_model",
                       "name": "positionHigh",
-                      "identifier": "shader_input_port_model:418447-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_input_port_model:93361-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "defaultValue": {
                         "type": 0,
                         "value": 0
@@ -323,7 +330,7 @@
                     {
                       "modelName": "shader_input_port_model",
                       "name": "positionLow",
-                      "identifier": "shader_input_port_model:418449-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_input_port_model:93363-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "defaultValue": {
                         "type": 0,
                         "value": 0
@@ -334,7 +341,17 @@
                     {
                       "modelName": "shader_input_port_model",
                       "name": "frame",
-                      "identifier": "shader_input_port_model:418451-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_input_port_model:93365-59475738-5664-4764-8ac9-c50ef01c8d34",
+                      "defaultValue": {
+                        "type": 0,
+                        "value": 0
+                      },
+                      "description": ""
+                    },
+                    {
+                      "modelName": "shader_input_port_model",
+                      "name": "scaleFactor",
+                      "identifier": "shader_input_port_model:93367-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "defaultValue": {
                         "type": 0,
                         "value": 0
@@ -350,7 +367,7 @@
                     {
                       "modelName": "shader_output_port_model",
                       "name": "return",
-                      "identifier": "shader_output_port_model:418453-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_output_port_model:93369-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "description": "",
                       "valueType": "vec4"
                     }
@@ -424,7 +441,7 @@
           "modelName": "shader_code_asset_model",
           "name": "ExampleVATShader",
           "identifier": "shader_code_asset_model:417139-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
-          "assetDataHash": "ef7a31736dec1b224ba912d4605e56ce",
+          "assetDataHash": "580b65a4b9adf1f2c66b595983498345",
           "assetLocator": "shaders/ExampleVATShader.sca",
           "builtinDeps": [
             "texture2d",
@@ -442,15 +459,15 @@
             "shader_code_asset_model:419173-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d"
           ],
           "isExternalAsset": true,
-          "moduleName": "sparkShaderCode18266812530441639448",
-          "wordsHash": 779292614097703991,
+          "moduleName": "sparkShaderCode10883462700811464096",
+          "wordsHash": 3246195869803081682,
           "children": [
             {
               "modelName": "shader_interface_model",
               "identifier": "shader_interface_model:417141-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
               "description": "",
               "functionName": "user::main",
-              "linkageName": "sparkShaderCode18266812530441639448",
+              "linkageName": "sparkShaderCode10883462700811464096",
               "children": [
                 {
                   "modelName": "shaderInputPorts",
@@ -459,7 +476,7 @@
                     {
                       "modelName": "shader_input_port_model",
                       "name": "matcapTex",
-                      "identifier": "shader_input_port_model:429585-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_input_port_model:97483-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "defaultValue": {
                         "type": 0,
                         "value": 0
@@ -470,7 +487,7 @@
                     {
                       "modelName": "shader_input_port_model",
                       "name": "normalTex",
-                      "identifier": "shader_input_port_model:429587-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_input_port_model:97485-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "defaultValue": {
                         "type": 0,
                         "value": 0
@@ -481,7 +498,7 @@
                     {
                       "modelName": "shader_input_port_model",
                       "name": "positionHigh",
-                      "identifier": "shader_input_port_model:429589-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_input_port_model:97487-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "defaultValue": {
                         "type": 0,
                         "value": 0
@@ -492,7 +509,7 @@
                     {
                       "modelName": "shader_input_port_model",
                       "name": "positionLow",
-                      "identifier": "shader_input_port_model:429591-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_input_port_model:97489-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "defaultValue": {
                         "type": 0,
                         "value": 0
@@ -503,7 +520,7 @@
                     {
                       "modelName": "shader_input_port_model",
                       "name": "normalHigh",
-                      "identifier": "shader_input_port_model:429593-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_input_port_model:97491-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "defaultValue": {
                         "type": 0,
                         "value": 0
@@ -514,7 +531,7 @@
                     {
                       "modelName": "shader_input_port_model",
                       "name": "normalLow",
-                      "identifier": "shader_input_port_model:429595-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_input_port_model:97493-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "defaultValue": {
                         "type": 0,
                         "value": 0
@@ -524,8 +541,18 @@
                     },
                     {
                       "modelName": "shader_input_port_model",
+                      "name": "scaleFactor",
+                      "identifier": "shader_input_port_model:97495-59475738-5664-4764-8ac9-c50ef01c8d34",
+                      "defaultValue": {
+                        "type": 0,
+                        "value": 0
+                      },
+                      "description": ""
+                    },
+                    {
+                      "modelName": "shader_input_port_model",
                       "name": "normalScale",
-                      "identifier": "shader_input_port_model:429597-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_input_port_model:97497-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "defaultValue": {
                         "type": 0,
                         "value": 1
@@ -535,7 +562,7 @@
                     {
                       "modelName": "shader_input_port_model",
                       "name": "normalTile",
-                      "identifier": "shader_input_port_model:429599-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_input_port_model:97499-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "defaultValue": {
                         "type": 0,
                         "value": 1
@@ -545,7 +572,7 @@
                     {
                       "modelName": "shader_input_port_model",
                       "name": "speed",
-                      "identifier": "shader_input_port_model:429601-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_input_port_model:97501-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "defaultValue": {
                         "type": 0,
                         "value": 1
@@ -561,21 +588,21 @@
                     {
                       "modelName": "shader_output_port_model",
                       "name": "return",
-                      "identifier": "shader_output_port_model:429603-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_output_port_model:97503-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "description": "position",
                       "valueType": "void_return"
                     },
                     {
                       "modelName": "shader_output_port_model",
                       "name": "Color",
-                      "identifier": "shader_output_port_model:429605-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_output_port_model:97505-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "description": "",
                       "valueType": "vec4"
                     },
                     {
                       "modelName": "shader_output_port_model",
                       "name": "Position",
-                      "identifier": "shader_output_port_model:429607-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_output_port_model:97507-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "description": "",
                       "valueType": "vec4"
                     }
@@ -589,7 +616,7 @@
           "modelName": "shader_code_asset_model",
           "name": "MatCap",
           "identifier": "shader_code_asset_model:419173-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
-          "assetDataHash": "f2bb3d9bc83ad5b1c54667cdde105b38",
+          "assetDataHash": "ef176392d058f5fbeb1870741a315992",
           "assetLocator": "shaders/MatCap.sca",
           "builtinDeps": [
             "texture2d",
@@ -598,15 +625,15 @@
           ],
           "externalDeps": [],
           "isExternalAsset": true,
-          "moduleName": "sparkShaderCode5602106026317999434",
-          "wordsHash": -7952603812897919618,
+          "moduleName": "sparkShaderCode4274424503937130588",
+          "wordsHash": 9142934879241209677,
           "children": [
             {
               "modelName": "shader_interface_model",
               "identifier": "shader_interface_model:419175-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
               "description": "",
               "functionName": "user::main",
-              "linkageName": "sparkShaderCode5602106026317999434",
+              "linkageName": "sparkShaderCode4274424503937130588",
               "children": [
                 {
                   "modelName": "shaderInputPorts",
@@ -615,7 +642,7 @@
                     {
                       "modelName": "shader_input_port_model",
                       "name": "matcapTex",
-                      "identifier": "shader_input_port_model:427101-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_input_port_model:95299-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "defaultValue": {
                         "type": 0,
                         "value": 0
@@ -626,7 +653,7 @@
                     {
                       "modelName": "shader_input_port_model",
                       "name": "normalTex",
-                      "identifier": "shader_input_port_model:427103-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_input_port_model:95301-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "defaultValue": {
                         "type": 0,
                         "value": 0
@@ -637,7 +664,7 @@
                     {
                       "modelName": "shader_input_port_model",
                       "name": "normalScale",
-                      "identifier": "shader_input_port_model:427105-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_input_port_model:95303-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "defaultValue": {
                         "type": 0,
                         "value": 1
@@ -647,7 +674,7 @@
                     {
                       "modelName": "shader_input_port_model",
                       "name": "normalTile",
-                      "identifier": "shader_input_port_model:427107-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_input_port_model:95305-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "defaultValue": {
                         "type": 0,
                         "value": 1
@@ -663,14 +690,14 @@
                     {
                       "modelName": "shader_output_port_model",
                       "name": "return",
-                      "identifier": "shader_output_port_model:427109-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_output_port_model:95307-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "description": "",
                       "valueType": "void_return"
                     },
                     {
                       "modelName": "shader_output_port_model",
                       "name": "Color",
-                      "identifier": "shader_output_port_model:427111-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "shader_output_port_model:95309-59475738-5664-4764-8ac9-c50ef01c8d34",
                       "description": "",
                       "valueType": "vec4"
                     }
@@ -825,70 +852,70 @@
       "children": [
         {
           "modelName": "textureExportConfig",
-          "identifier": "textureExportConfig:435564-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+          "identifier": "textureExportConfig:98299-59475738-5664-4764-8ac9-c50ef01c8d34",
           "method": "fastest",
           "targetFormat": 1
         },
         {
           "modelName": "textureExportConfig",
-          "identifier": "textureExportConfig:435566-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+          "identifier": "textureExportConfig:98301-59475738-5664-4764-8ac9-c50ef01c8d34",
           "method": "fastest",
           "targetFormat": 1
         },
         {
           "modelName": "textureExportConfig",
-          "identifier": "textureExportConfig:435568-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+          "identifier": "textureExportConfig:98303-59475738-5664-4764-8ac9-c50ef01c8d34",
           "method": "fastest",
           "targetFormat": 1
         },
         {
           "modelName": "textureExportConfig",
-          "identifier": "textureExportConfig:435570-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+          "identifier": "textureExportConfig:98305-59475738-5664-4764-8ac9-c50ef01c8d34",
           "method": "fastest",
           "targetFormat": 1
         },
         {
           "modelName": "textureExportConfig",
-          "identifier": "textureExportConfig:435572-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+          "identifier": "textureExportConfig:98307-59475738-5664-4764-8ac9-c50ef01c8d34",
           "method": "fastest",
           "targetFormat": 2
         },
         {
           "modelName": "textureExportConfig",
-          "identifier": "textureExportConfig:435574-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+          "identifier": "textureExportConfig:98309-59475738-5664-4764-8ac9-c50ef01c8d34",
           "method": "fastest",
           "targetFormat": 2
         },
         {
           "modelName": "textureExportConfig",
-          "identifier": "textureExportConfig:435576-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+          "identifier": "textureExportConfig:98311-59475738-5664-4764-8ac9-c50ef01c8d34",
           "method": "fastest",
           "targetFormat": 2
         },
         {
           "modelName": "textureExportConfig",
-          "identifier": "textureExportConfig:435578-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+          "identifier": "textureExportConfig:98313-59475738-5664-4764-8ac9-c50ef01c8d34",
           "method": "fastest",
           "targetFormat": 2
         },
         {
           "modelName": "textureExportConfig",
-          "identifier": "textureExportConfig:435580-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+          "identifier": "textureExportConfig:98315-59475738-5664-4764-8ac9-c50ef01c8d34",
           "method": "fastest"
         },
         {
           "modelName": "textureExportConfig",
-          "identifier": "textureExportConfig:435582-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+          "identifier": "textureExportConfig:98317-59475738-5664-4764-8ac9-c50ef01c8d34",
           "method": "fastest"
         },
         {
           "modelName": "textureExportConfig",
-          "identifier": "textureExportConfig:435584-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+          "identifier": "textureExportConfig:98319-59475738-5664-4764-8ac9-c50ef01c8d34",
           "method": "fastest"
         },
         {
           "modelName": "textureExportConfig",
-          "identifier": "textureExportConfig:435586-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+          "identifier": "textureExportConfig:98321-59475738-5664-4764-8ac9-c50ef01c8d34",
           "method": "fastest"
         }
       ]

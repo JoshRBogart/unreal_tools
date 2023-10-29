@@ -1,7 +1,7 @@
 {
   "modelName": "texture",
   "name": "Cube_normal_high",
-  "identifier": "texture:434988-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+  "identifier": "texture:98211-59475738-5664-4764-8ac9-c50ef01c8d34",
   "alphaPremultiplicationMode": "should_premultiply",
   "assetDataHash": "b1f44927efd5e34abd9939e2e122d998",
   "assetLocator": "textures/Cube_normal_high.png",
@@ -11,9 +11,9 @@
   "excludeDuringExport": false,
   "excludeFromPackage": false,
   "exportConfigurations": [
-    "textureExportConfig:435570-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
-    "textureExportConfig:435578-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
-    "textureExportConfig:435586-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d"
+    "textureExportConfig:98305-59475738-5664-4764-8ac9-c50ef01c8d34",
+    "textureExportConfig:98313-59475738-5664-4764-8ac9-c50ef01c8d34",
+    "textureExportConfig:98321-59475738-5664-4764-8ac9-c50ef01c8d34"
   ],
   "filter": "bilinear",
   "hasOfflineMipmaps": false,

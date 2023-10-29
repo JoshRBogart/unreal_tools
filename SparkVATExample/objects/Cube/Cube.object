@@ -1,8 +1,8 @@
 {
   "modelName": "master3_d_object_model",
   "name": "Cube",
-  "identifier": "master3_d_object_model:435018-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
-  "sourceIdentifier": "asset_collection_model:435022-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+  "identifier": "master3_d_object_model:98241-59475738-5664-4764-8ac9-c50ef01c8d34",
+  "sourceIdentifier": "asset_collection_model:98245-59475738-5664-4764-8ac9-c50ef01c8d34",
   "animationMask": {
     "position": false,
     "rotation": false,
@@ -32,7 +32,7 @@
     {
       "modelName": "mesh",
       "name": "export_mesh",
-      "identifier": "mesh:435006-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+      "identifier": "mesh:98229-59475738-5664-4764-8ac9-c50ef01c8d34",
       "animationMask": {
         "position": false,
         "rotation": false,
@@ -45,7 +45,7 @@
       "numberOfFaces": 588,
       "outputVisibility": "preview|capture",
       "physicsEnabled": false,
-      "prefabIdentifier": "gltf:435012-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+      "prefabIdentifier": "gltf:98235-59475738-5664-4764-8ac9-c50ef01c8d34",
       "receiveShadow": false,
       "renderPass": "main_scene",
       "tags": [],
@@ -64,21 +64,21 @@
       "children": [
         {
           "modelName": "surfaces",
-          "identifier": "surfaces:435008-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+          "identifier": "surfaces:98231-59475738-5664-4764-8ac9-c50ef01c8d34",
           "children": [
             {
               "modelName": "surface",
               "name": "surface0",
-              "identifier": "surface:435015-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+              "identifier": "surface:98238-59475738-5664-4764-8ac9-c50ef01c8d34",
               "isMaterialIdentifierEnabled": true,
-              "materialIdentifier": "dependent_material_model:435002-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
-              "surfaceGroupIdentifier": "435016-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d"
+              "materialIdentifier": "dependent_material_model:98225-59475738-5664-4764-8ac9-c50ef01c8d34",
+              "surfaceGroupIdentifier": "98239-59475738-5664-4764-8ac9-c50ef01c8d34"
             }
           ]
         },
         {
           "modelName": "blend_shapes_model",
-          "identifier": "blend_shapes_model:435010-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d"
+          "identifier": "blend_shapes_model:98233-59475738-5664-4764-8ac9-c50ef01c8d34"
         }
       ]
     }

@@ -1,7 +1,7 @@
 {
   "modelName": "texture",
   "name": "Cube_normal_low",
-  "identifier": "texture:434992-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+  "identifier": "texture:98215-59475738-5664-4764-8ac9-c50ef01c8d34",
   "alphaPremultiplicationMode": "should_premultiply",
   "assetDataHash": "ec3ced6b29f89e4b434e47c3e8af322c",
   "assetLocator": "textures/Cube_normal_low.png",
@@ -11,9 +11,9 @@
   "excludeDuringExport": false,
   "excludeFromPackage": false,
   "exportConfigurations": [
-    "textureExportConfig:435568-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
-    "textureExportConfig:435576-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
-    "textureExportConfig:435584-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d"
+    "textureExportConfig:98299-59475738-5664-4764-8ac9-c50ef01c8d34",
+    "textureExportConfig:98307-59475738-5664-4764-8ac9-c50ef01c8d34",
+    "textureExportConfig:98315-59475738-5664-4764-8ac9-c50ef01c8d34"
   ],
   "filter": "bilinear",
   "hasOfflineMipmaps": false,
