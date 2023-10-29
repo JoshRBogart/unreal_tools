@@ -220,16 +220,16 @@ class OBJECT_OT_ProcessAnimMeshes(bpy.types.Operator):
                 "Scene Unit must be Metric with a Unit Scale of 0.01!"
             )
             return {'CANCELLED'}
-        if vertex_count > 8192:
+        if vertex_count > 1024:
             self.report(
                 {'ERROR'},
-                f"Vertex count of {vertex_count :,}, execedes limit of 8,192!"
+                f"Vertex count of {vertex_count :,}, execedes limit of 1024!"
             )
             return {'CANCELLED'}
-        if frame_count > 8192:
+        if frame_count > 1024:
             self.report(
                 {'ERROR'},
-                f"Frame count of {frame_count :,}, execedes limit of 8,192!"
+                f"Frame count of {frame_count :,}, execedes limit of 1024!"
             )
             return {'CANCELLED'}
 
