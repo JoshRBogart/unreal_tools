@@ -1,0 +1,36 @@
+{
+  "modelName": "texture",
+  "name": "MetaSparkLogo",
+  "identifier": "texture:418295-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+  "alphaPremultiplicationMode": "should_premultiply",
+  "assetDataHash": "b72627d47a7c375396296f091b399368",
+  "assetLocator": "textures/MetaSparkLogo.png",
+  "colorEncoding": "linear",
+  "compressionQuality": "high",
+  "coordMapping": "none",
+  "excludeDuringExport": false,
+  "excludeFromPackage": false,
+  "filter": "bilinear",
+  "hasOfflineMipmaps": false,
+  "height": 1024,
+  "importIssues": {},
+  "isExternalAsset": true,
+  "smartTextureTargetSizeLimit": "largest",
+  "targetSize": "largest",
+  "uWrapMode": "clamp",
+  "vWrapMode": "clamp",
+  "width": 1024,
+  "children": [
+    {
+      "modelName": "data_texture_metadata_model",
+      "name": "data_texture_metadata_model0",
+      "assetDataHash": "b72627d47a7c375396296f091b399368",
+      "colorCount": 2048,
+      "detectedAlphaChannel": "no_alpha",
+      "detectedOriginalFormat": "png",
+      "entropyOfDistribution": 1.61281268191927,
+      "pixelsHigh": 1024,
+      "pixelsWide": 1024
+    }
+  ]
+}

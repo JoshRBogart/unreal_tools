@@ -1,0 +1,33 @@
+precision highp float;
+using namespace std;
+#import <utils>
+#import <SparkVAT.sca>
+#import <MatCap.sca>
+
+// @param[default=1.0] normalScale
+// @param[default=1.0] normalTile
+// @param[default=1.0] speed
+// @return color
+// @return position
+void main(  optional<std::Texture2d> matcapTex,
+            optional<std::Texture2d> normalTex,
+            optional<std::Texture2d> positionHigh,
+            optional<std::Texture2d> positionLow,
+            optional<std::Texture2d> normalHigh,
+            optional<std::Texture2d> normalLow,
+            float normalScale,
+            float normalTile,
+            float speed,
+            out vec4 Color,
+            out vec4 Position)
+
+{
+  // Attributes
+  float frame = mod(getTime()*speed,1.0);
+
+  mat3 tangentFrame = VATgetTangentFrame(normalHigh, normalLow, frame);
+  vec2 calculatedNormal = calculateNormal(normalTex, tangentFrame, normalScale, normalTile);
+
+  Color = MatCapColor(matcapTex, calculatedNormal);
+  Position = VATposition(positionHigh, positionLow, frame);
+}

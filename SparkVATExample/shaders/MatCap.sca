@@ -1,0 +1,42 @@
+//==============================================================================
+// MatCap Shader
+// via https://www.clicktorelease.com/code/spherical-normal-mapping/
+//==============================================================================
+
+using namespace std;
+#import <utils>
+
+export vec2 calculateNormal(  optional<std::Texture2d> normalTex,
+                              mat3 tangentFrame,
+                              float normalScale,
+                              float normalTile )
+{
+    vec2 uv = getVertexTexCoord();
+    vec3 vU = safeNormalize( vec3( getModelViewMatrix() * getVertexPosition() ) );
+
+    vec3 nTex = normalTex.sample(uv * normalTile).valueOr(vec4(0.5,0.5,1.0,1.0)).xyz * 2.0 - 1.0;
+    nTex = safeNormalize( nTex * vec3(normalScale, normalScale * -1.0, 1.0) );
+
+    vec3 finalNormal = safeNormalize( getNormalMatrix() * tangentFrame * nTex );
+
+    vec3 r = reflect( vU, finalNormal );
+    float m = 2.0 * sqrt( r.x * r.x + r.y * r.y + ( r.z + 1.0 ) * ( r.z+1.0 ) );
+    return vec2( r.x / m + 0.5,  r.y / m + 0.5 );
+}
+
+export vec4 MatCapColor(optional<std::Texture2d> matcapTex, vec2 uv) {
+    return matcapTex.sample(uv).valueOr(vec4(1.0));
+}
+
+// @param[default=1.0] normalScale
+// @param[default=1.0] normalTile
+void main(optional<std::Texture2d> matcapTex,
+          optional<std::Texture2d> normalTex,
+          float normalScale,
+          float normalTile,
+          out vec4 Color)
+
+{
+  vec2 calculatedNormal = calculateNormal(normalTex, getTangentFrame(), normalScale, normalTile);
+  Color = MatCapColor(matcapTex, calculatedNormal);
+}
