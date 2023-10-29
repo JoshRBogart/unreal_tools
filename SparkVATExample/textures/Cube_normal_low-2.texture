@@ -1,19 +1,19 @@
 {
   "modelName": "texture",
-  "name": "Cube_normal_high",
-  "identifier": "texture:416199-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+  "name": "Cube_normal_low",
+  "identifier": "texture:434992-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
   "alphaPremultiplicationMode": "should_premultiply",
-  "assetDataHash": "7f8f5b5e33872445e7ac1aeeb3eb8740",
-  "assetLocator": "textures/Cube_normal_high.png",
+  "assetDataHash": "ec3ced6b29f89e4b434e47c3e8af322c",
+  "assetLocator": "textures/Cube_normal_low.png",
   "colorEncoding": "linear",
   "compressionQuality": "high",
   "coordMapping": "none",
   "excludeDuringExport": false,
   "excludeFromPackage": false,
   "exportConfigurations": [
-    "textureExportConfig:416621-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
-    "textureExportConfig:416629-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
-    "textureExportConfig:416637-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d"
+    "textureExportConfig:435568-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+    "textureExportConfig:435576-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+    "textureExportConfig:435584-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d"
   ],
   "filter": "bilinear",
   "hasOfflineMipmaps": false,
@@ -24,18 +24,18 @@
   "targetSize": "largest",
   "uWrapMode": "clamp",
   "vWrapMode": "clamp",
-  "width": 152,
+  "width": 296,
   "children": [
     {
       "modelName": "data_texture_metadata_model",
       "name": "data_texture_metadata_model0",
-      "assetDataHash": "7f8f5b5e33872445e7ac1aeeb3eb8740",
-      "colorCount": 11266,
+      "assetDataHash": "ec3ced6b29f89e4b434e47c3e8af322c",
+      "colorCount": 29181,
       "detectedAlphaChannel": "no_alpha",
       "detectedOriginalFormat": "png",
-      "entropyOfDistribution": 13.096706672078465,
+      "entropyOfDistribution": 14.830363706185501,
       "pixelsHigh": 99,
-      "pixelsWide": 152
+      "pixelsWide": 296
     }
   ]
 }

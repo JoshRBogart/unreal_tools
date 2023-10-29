@@ -109,16 +109,16 @@
                 {
                   "modelName": "3_d_object_instance_model",
                   "name": "Cube",
-                  "identifier": "master3_d_object_model:416390-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
-                  "sourceIdentifier": "master3_d_object_model:416229-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                  "identifier": "master3_d_object_model:435196-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                  "sourceIdentifier": "master3_d_object_model:435018-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
                   "animationMask": {
                     "position": false,
                     "rotation": false,
                     "scale": false
                   },
                   "cameraVisibility": "back|front",
-                  "depth": 0.5215004086494446,
-                  "height": 0.5210726261138916,
+                  "depth": 0.5607011914253235,
+                  "height": 0.5609457492828369,
                   "hidden": false,
                   "layerIdentifier": "layer0",
                   "outputVisibility": "preview|capture",
@@ -135,13 +135,13 @@
                     "y": 0,
                     "z": 0
                   },
-                  "width": 0.5204286575317383,
+                  "width": 0.5602449178695679,
                   "children": [
                     {
                       "modelName": "mesh",
                       "name": "export_mesh",
-                      "identifier": "mesh:416399-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
-                      "sourceIdentifier": "mesh:416217-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "identifier": "mesh:435205-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "sourceIdentifier": "mesh:435006-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
                       "animationMask": {
                         "position": false,
                         "rotation": false,
@@ -152,10 +152,10 @@
                       "hidden": false,
                       "layerIdentifier": "layer0",
                       "nodeName": "export_mesh",
-                      "numberOfFaces": 300,
+                      "numberOfFaces": 588,
                       "outputVisibility": "preview|capture",
                       "physicsEnabled": false,
-                      "prefabIdentifier": "gltf:416223-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                      "prefabIdentifier": "gltf:435012-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
                       "receiveShadow": false,
                       "renderPass": "main_scene",
                       "tags": [],
@@ -174,24 +174,24 @@
                       "children": [
                         {
                           "modelName": "surfaces",
-                          "identifier": "surfaces:416402-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
-                          "sourceIdentifier": "surfaces:416219-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                          "identifier": "surfaces:435208-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                          "sourceIdentifier": "surfaces:435008-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
                           "children": [
                             {
                               "modelName": "surface",
                               "name": "surface0",
-                              "identifier": "surface:416405-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
-                              "sourceIdentifier": "surface:416226-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                              "identifier": "surface:435211-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                              "sourceIdentifier": "surface:435015-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
                               "isMaterialIdentifierEnabled": true,
                               "materialIdentifier": "shader_code_asset_material_model:414579-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
-                              "surfaceGroupIdentifier": "416227-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d"
+                              "surfaceGroupIdentifier": "435016-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d"
                             }
                           ]
                         },
                         {
                           "modelName": "blend_shapes_model",
-                          "identifier": "blend_shapes_model:416408-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
-                          "sourceIdentifier": "blend_shapes_model:416221-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d"
+                          "identifier": "blend_shapes_model:435214-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+                          "sourceIdentifier": "blend_shapes_model:435010-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d"
                         }
                       ]
                     }
