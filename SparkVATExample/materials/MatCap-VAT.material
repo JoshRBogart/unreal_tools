@@ -1,6 +1,6 @@
 {
   "modelName": "shader_code_asset_material_model",
-  "name": "SparkVATMaterial",
+  "name": "MatCap-VAT",
   "identifier": "shader_code_asset_material_model:414579-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
   "alphaTestEnabled": false,
   "alphaTestThreshold": 0,

@@ -99,7 +99,7 @@
       "identifier": "materials:405183-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
       "children": [
         {
-          "sectionFileLocation": "materials/SparkVATMaterial.material"
+          "sectionFileLocation": "materials/MatCap-VAT.material"
         },
         {
           "sectionFileLocation": "objects/Cube/DefaultMaterial.material"
@@ -522,10 +522,10 @@
         },
         {
           "modelName": "shader_code_asset_model",
-          "name": "ExampleVATShader",
+          "name": "MatCapVAT",
           "identifier": "shader_code_asset_model:417139-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
           "assetDataHash": "580b65a4b9adf1f2c66b595983498345",
-          "assetLocator": "shaders/ExampleVATShader.sca",
+          "assetLocator": "shaders/MatCapVAT.sca",
           "builtinDeps": [
             "texture2d",
             "textureEnv",
