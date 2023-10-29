@@ -3,6 +3,8 @@
 ## Description
 A combination of scripts for Blender and Meta Spark AR to play back arbitrarily deformed geometry in Spark without using bones. It is super performant and flexible. 
 
+![](https://github.com/MateSteinforth/SparkAR-VAT/blob/master/animatedCube.gif)
+
 
 ### Known Limitations
 Vertex offset between the first and last frame can't be more than 1 scene unit (will be fixed/adapted)
