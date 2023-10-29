@@ -6,7 +6,7 @@
 using namespace std;
 #import <utils>
 
-export vec2 calculateNormal(  optional<std::Texture2d> normalTex,
+export vec2 calculateNormal(  optional<Texture2d> normalTex,
                               mat3 tangentFrame,
                               float normalScale,
                               float normalTile )

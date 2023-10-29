@@ -30,18 +30,24 @@ export vec4 VATposition(optional<std::Texture2d> positionHigh, optional<std::Tex
     return getModelViewProjectionMatrix() * (getVertexPosition() + yUpCoordinates);
 }
 
+export vec3 VATgetVertexNormal(optional<std::Texture2d> normalHigh, optional<std::Texture2d> normalLow, float frame) {
+  // Attributes
+  vec2 uv2 = getVertexTexCoord1().valueOr(vec2(0.0));
+  return unpack16bitTexture(normalHigh, normalLow, vec2(uv2 + vec2(0., frame-0.5))).xyz;
+}
+
 export mat3 VATgetTangentFrame(optional<std::Texture2d> normalHigh, optional<std::Texture2d> normalLow, float frame) {
     // Attributes
     vec2 uv2 = getVertexTexCoord1().valueOr(vec2(0.0));
 
     // Calculate Tangent
-    vec3 nrm = unpack16bitTexture(normalHigh, normalLow, vec2(uv2 + vec2(0., frame-0.5))).xyz;
+    vec3 nrm = VATgetVertexNormal(normalHigh, normalLow, frame);
     vec3 csTangent = mat3(getModelViewMatrix()) * getVertexTangent();
     vec3 csBitangent = cross(nrm, csTangent);
     return mat3(csTangent, csBitangent, nrm);
 }
 
-// @param[default=1.0] speed
+// @param[default=1.0] frame
 // @param[default=1.0] scaleFactor
 // @return color
 // @return position

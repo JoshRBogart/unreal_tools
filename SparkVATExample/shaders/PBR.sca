@@ -1,0 +1,355 @@
+precision highp float;
+using namespace std;
+#import <lights>
+#import <shadows>
+#import <utils>
+
+struct MaterialInfo {
+    float perceptualRoughness;      // roughness value, as authored by the model creator (input to shader)
+    vec3 f0;                        // full reflectance color (n incidence angle)
+    float alphaRoughness;           // roughness mapped to a more linear change in the roughness (proposed by [2])
+    vec3 c_diff;
+    float occlusion;
+    float metallic;
+    vec3 baseColor;
+    float alpha;
+};
+
+const float Pi = 3.14159265359;
+const vec4 WHITE = vec4(1.0, 1.0, 1.0, 1.0);
+const vec4 BLACK = vec4(0.0, 0.0, 0.0, 1.0);
+
+float clampedDot(vec3 x, vec3 y)
+{
+    return clamp(dot(x, y), 0.0, 1.0);
+}
+
+vec3 getIBLRadianceGGX(vec3 n, vec3 v, float roughness, vec3 F0, optional<TextureEnv> specularMap, optional<Texture2d> ggxLookup)
+{
+    float NdotV = clampedDot(n, v);
+    // For indirect lighting computations, vectors should be mapped from camera space
+    // back to world space by left-multiplying with V^T (or right-multiplying with V).
+    mat3 viewMatrix3x3 = mat3(getViewMatrix());
+    vec3 reflection = normalize(reflect(-v, n));
+    reflection = safeNormalize(reflection * viewMatrix3x3);
+    vec2 brdfSamplePoint = clamp(vec2(NdotV, roughness), vec2(0.0, 0.0), vec2(1.0, 1.0));
+    vec2 f_ab = ggxLookup.sample(brdfSamplePoint).valueOr(BLACK).rg;
+    vec4 specularSample = specularMap.sampleNormalizedLod(reflection, roughness).valueOr(BLACK);
+    vec3 specularLight = specularSample.rgb;
+    // see https://bruop.github.io/ibl/#single_scattering_results at Single Scattering Results
+    // Roughness dependent fresnel, from Fdez-Aguera
+    vec3 Fr = max(vec3(1.0 - roughness), F0) - F0;
+    vec3 k_S = F0 + Fr * pow(1.0 - NdotV, 5.0);
+    vec3 FssEss = k_S * f_ab.x + f_ab.y;
+    return specularLight * FssEss;
+}
+
+vec3 getIBLRadianceLambertian(vec3 n, vec3 v, float roughness, vec3 diffuseColor, vec3 F0, optional<TextureEnv> diffuseMap, optional<Texture2d> ggxLookup)
+{
+    float NdotV = clampedDot(n, v);
+    vec2 brdfSamplePoint = clamp(vec2(NdotV, roughness), vec2(0.0, 0.0), vec2(1.0, 1.0));
+    vec2 f_ab = ggxLookup.sample(brdfSamplePoint).valueOr(BLACK).rg;
+    // For indirect lighting computations, vectors should be mapped from camera space
+    // back to world space by left-multiplying with V^T (or right-multiplying with V).
+    mat3 viewMatrix3x3 = mat3(getViewMatrix());
+    vec3 irradiance = diffuseMap.sample(safeNormalize(n * viewMatrix3x3)).valueOr(BLACK).rgb;
+    // see https://bruop.github.io/ibl/#single_scattering_results at Single Scattering Results
+    // Roughness dependent fresnel, from Fdez-Aguera
+    vec3 Fr = max(vec3(1.0 - roughness), F0) - F0;
+    vec3 k_S = F0 + Fr * pow(1.0 - NdotV, 5.0);
+    vec3 FssEss = k_S * f_ab.x + f_ab.y;
+    // Multiple scattering, from Fdez-Aguera
+    float Ems = (1.0 - (f_ab.x + f_ab.y));
+    vec3 F_avg = (F0 + (1.0 - F0) / 21.0);
+    vec3 FmsEms = Ems * FssEss * F_avg / (1.0 - F_avg * Ems);
+    vec3 k_D = diffuseColor * (1.0 - FssEss + FmsEms); // we use +FmsEms as indicated by the formula in the blog post (might be a typo in the implementation)
+    return (FmsEms + k_D) * irradiance;
+}
+
+vec3 F_Schlick(vec3 f0, vec3 f90, float VdotH)
+{
+    float x = clamp(1.0 - VdotH, 0.0, 1.0);
+    float x2 = x * x;
+    float x4 = x2 * x2;
+    float x5 = x4 * x;
+    return f0 + (f90 - f0) * x5;
+}
+
+float V_GGX(float NdotL, float NdotV, float alphaRoughness)
+{
+    float alphaRoughnessSq = alphaRoughness * alphaRoughness;
+    float GGXV = NdotL * sqrt(NdotV * NdotV * (1.0 - alphaRoughnessSq) + alphaRoughnessSq);
+    float GGXL = NdotV * sqrt(NdotL * NdotL * (1.0 - alphaRoughnessSq) + alphaRoughnessSq);
+    float GGX = GGXV + GGXL;
+    if (GGX > 0.0)\
+    {
+        return 0.5 / GGX;
+    }
+    return 0.0;
+}
+
+float D_GGX(float NdotH, float alphaRoughness)
+{
+    float alphaRoughnessSq = alphaRoughness * alphaRoughness;
+    float f = (NdotH * NdotH) * (alphaRoughnessSq - 1.0) + 1.0;
+    return alphaRoughnessSq / (Pi * f * f);
+}
+
+vec3 BRDF_lambertian(vec3 f0, vec3 f90, vec3 diffuseColor, float VdotH)
+{
+    return (1.0 - F_Schlick(f0, f90, VdotH)) * (diffuseColor / Pi);
+}
+
+vec3 BRDF_specularGGX(vec3 f0, vec3 f90, float alphaRoughness, float VdotH, float NdotL, float NdotV, float NdotH)
+{
+    vec3 F = F_Schlick(f0, f90, VdotH);
+    float Vis = V_GGX(NdotL, NdotV, alphaRoughness);
+    float D = D_GGX(NdotH, alphaRoughness);
+    return F * Vis * D;
+}
+
+MaterialInfo getMetallicRoughnessInfo(MaterialInfo info,
+                                      optional<vec4> metallicRoughnessTextureVal,
+                                      optional<vec4> occlusionTextureVal,
+                                      float occlusionVal,
+                                      float metallicVal,
+                                      float perceptualRoughnessVal,
+                                      float occlusionStrengthVal)
+{
+    info.occlusion = occlusionVal;
+    info.metallic = metallicVal;
+    info.perceptualRoughness = perceptualRoughnessVal;
+    vec4 oSample = occlusionTextureVal.valueOr(WHITE);
+    vec4 mrSample = metallicRoughnessTextureVal.valueOr(WHITE);
+    info.occlusion *= oSample.r;
+    info.metallic *= mrSample.b;
+    info.perceptualRoughness *= mrSample.g;
+    float occlusionStrengthUniform = occlusionStrengthVal;
+    info.occlusion = mix(1.0, info.occlusion, occlusionStrengthUniform);
+    info.c_diff = mix(info.baseColor.rgb, vec3(0), info.metallic);
+    info.f0 = mix(info.f0, info.baseColor.rgb, info.metallic);
+    return info;
+}
+
+MaterialInfo getBaseColor(MaterialInfo info,
+                          optional<vec4> baseColorTextureVal,
+                          vec4 baseColorVal) {
+  vec4 baseColor = baseColorVal;
+  baseColor *= baseColorTextureVal.valueOr(WHITE);
+  baseColor *= getVertexColor().valueOr(WHITE);
+  info.baseColor = baseColor.rgb;
+  info.alpha = baseColor.a;
+  return info;
+}
+
+MaterialInfo makeMaterialParameters(
+    optional<vec4> baseColorTextureVal,
+    optional<vec4> metallicRoughnessTextureVal,
+    optional<vec4> occlusionTextureVal,
+    vec4 baseColorVal,
+    float occlusionVal,
+    float metallicVal,
+    float perceptualRoughnessVal,
+    float occlusionStrengthVal) {
+  MaterialInfo materialInfo;
+  materialInfo = getBaseColor(materialInfo, baseColorTextureVal, baseColorVal);
+  materialInfo.f0 = vec3(0.04);
+  materialInfo = getMetallicRoughnessInfo(materialInfo,
+                                          metallicRoughnessTextureVal,
+                                          occlusionTextureVal,
+                                          occlusionVal,
+                                          metallicVal,
+                                          perceptualRoughnessVal,
+                                          occlusionStrengthVal);
+  materialInfo.perceptualRoughness = clamp(materialInfo.perceptualRoughness, 0.0, 1.0);
+  materialInfo.metallic = clamp(materialInfo.metallic, 0.0, 1.0);
+  materialInfo.alphaRoughness = materialInfo.perceptualRoughness * materialInfo.perceptualRoughness;
+  return materialInfo;
+}
+
+// Applies a single analytical light source (directional, point, spot) to the fragment.
+vec3 applyLight(
+    LightData light,
+    float shadowFactor,
+    vec3 normal,
+    vec3 view,
+    MaterialInfo material) {
+    vec3 halfway = safeNormalize(light.toLightDirection + view);
+    float NdotL = max(dot(normal, light.toLightDirection), 0.001);
+    float NdotV = max(dot(normal, view), 0.001);
+    float NdotH = max(dot(normal, halfway), 0.0);
+    float VdotH = max(dot(view, halfway), 0.0);
+    vec3 diffuse = light.intensity * NdotL *  BRDF_lambertian(material.f0, WHITE.xyz, material.c_diff, VdotH);
+    vec3 specular = light.intensity * NdotL * BRDF_specularGGX(material.f0, WHITE.xyz, material.alphaRoughness, VdotH, NdotL, NdotV, NdotH);
+    return diffuse + specular;
+}
+
+vec3 applyLights(vec3 csPosition, vec3 csNormal, vec3 csView, vec4 wsPosition, MaterialInfo material) {
+  vec3 litColor = material.c_diff * getAmbientLight().rgb;
+  if (getActiveLightCount() > 0) {
+    litColor += applyLight(getLightData0(csPosition.xyz),
+                           1.0,
+                           csNormal,
+                           csView,
+                           material);
+  }
+  if (getActiveLightCount() > 1) {
+    litColor += applyLight(getLightData1(csPosition.xyz),
+                           1.0,
+                           csNormal,
+                           csView,
+                           material);
+  }
+  if (getActiveLightCount() > 2) {
+    litColor += applyLight(getLightData2(csPosition.xyz),
+                           1.0,
+                           csNormal,
+                           csView,
+                           material);
+  }
+  if (getActiveLightCount() > 3) {
+    litColor += applyLight(getLightData3(csPosition.xyz),
+                           1.0,
+                           csNormal,
+                           csView,
+                           material);
+  }
+  return litColor;
+}
+
+mat3 getPBRTangent() {
+    // Attributes
+    vec2 uv = getVertexTexCoord();
+    vec4 localPosition = getVertexPosition();
+
+    // Screen-space position
+    vec4 Position = getModelViewProjectionMatrix() * localPosition;
+    // World-space position:
+    vec4 wsPosition = getModelMatrix() * localPosition;
+    // Camera-space normal, position, and view
+    mat3 mvMatrix3x3 = mat3(getModelViewMatrix());
+    vec3 csNormal = normFragNorm(getNormalMatrix() * getVertexNormal());
+    vec3 csTangent = normFragNorm(mvMatrix3x3 * getVertexTangent());
+    vec3 csBitangent = cross(csNormal, csTangent) * getTangentHandedness();
+    vec4 csPosition = getModelViewMatrix() * localPosition;
+    vec3 csView = safeNormalize(-csPosition.xyz); // csCamera is at vec3(0,0,0)
+    // Normal mapping if normalMapTexture is present
+    mat3 csTangentFrame = mat3(csTangent, csBitangent, csNormal);
+
+  return csTangentFrame;
+}
+
+export vec4 PBRColor( optional<Texture2d> baseColorTexture,
+                      optional<Texture2d> metallicRoughnessTexture,
+                      optional<Texture2d> occlusionTexture,
+                      optional<Texture2d> combinedOrmTexture,
+                      optional<Texture2d> emissiveTexture,
+                      optional<Texture2d> normalMapTexture,
+                      optional<TextureEnv> diffuseEnvironmentTexture,
+                      optional<TextureEnv> specularEnvironmentTexture,
+                      optional<Texture2d> ggxLookup,
+                      vec4 u_baseColor,
+                      float u_occlusion,
+                      float u_metallic,
+                      float u_perceptualRoughness,
+                      float u_occlusionStrength,
+                      float u_normalMapScale,
+                      vec3 vertexNormal)
+{
+  // Attributes
+  vec2 uv = getVertexTexCoord();
+  vec4 localPosition = getVertexPosition();
+  // Material parameters
+  MaterialInfo material = makeMaterialParameters(
+    baseColorTexture.sample(uv),
+    metallicRoughnessTexture.valueOr(combinedOrmTexture).sample(uv),
+    occlusionTexture.valueOr(combinedOrmTexture).sample(uv),
+    u_baseColor,
+    u_occlusion,
+    u_metallic,
+    u_perceptualRoughness,
+    u_occlusionStrength);
+  // Screen-space position
+  vec4 Position = getModelViewProjectionMatrix() * localPosition;
+  // World-space position:
+  vec4 wsPosition = getModelMatrix() * localPosition;
+  // Camera-space normal, position, and view
+  mat3 mvMatrix3x3 = mat3(getModelViewMatrix());
+  vec3 csNormal = normFragNorm(getNormalMatrix() * vertexNormal);
+  vec3 csTangent = normFragNorm(mvMatrix3x3 * getVertexTangent());
+  vec3 csBitangent = cross(csNormal, csTangent) * getTangentHandedness();
+  vec4 csPosition = getModelViewMatrix() * localPosition;
+  vec3 csView = safeNormalize(-csPosition.xyz); // csCamera is at vec3(0,0,0)
+  // Normal mapping if normalMapTexture is present
+  mat3 csTangentFrame = mat3(csTangent, csBitangent, csNormal);
+
+  optional<vec3> sampledNormal = (normalMapTexture.sample(uv).rgb * 2.0 - 1.0) * u_normalMapScale;
+  optional<vec3> mappedNormal = normalize(csTangentFrame * sampledNormal);
+  csNormal = mappedNormal.valueOr(csNormal);
+  // IBL
+  vec3 f_specular = getIBLRadianceGGX(
+    csNormal,
+    csView,
+    material.perceptualRoughness,
+    material.f0,
+    specularEnvironmentTexture,
+    ggxLookup);
+  vec3 f_diffuse = getIBLRadianceLambertian(
+    csNormal,
+    csView,
+    material.perceptualRoughness,
+    material.c_diff,
+    material.f0,
+    diffuseEnvironmentTexture,
+    ggxLookup);
+  vec3 f_ibl = (f_specular + f_diffuse) * material.occlusion;
+  // Punctual lighting
+  vec3 f_punctual = applyLights(csPosition.xyz, csNormal, csView, wsPosition, material);
+  return vec4(f_ibl + f_punctual, material.alpha);
+}
+
+// Entry point of the shader code asset
+//
+// @param[default=#FFFFFFFF] u_baseColor
+// @param[default=0.0,min=0.0,max=1.0] u_occlusion
+// @param[default=0.0,min=0.0,max=1.0] u_metallic
+// @param[default=0.0,min=0.0,max=1.0] u_perceptualRoughness
+// @param[default=0.0,min=0.0,max=1.0] u_occlusionStrength
+// @param[default=0.0,min=0.0,max=1.0] u_normalMapScale
+// @return color
+void main(
+    optional<Texture2d> baseColorTexture,
+    optional<Texture2d> metallicRoughnessTexture,
+    optional<Texture2d> occlusionTexture,
+    optional<Texture2d> combinedOrmTexture,
+    optional<Texture2d> emissiveTexture,
+    optional<Texture2d> normalMapTexture,
+    optional<TextureEnv> diffuseEnvironmentTexture,
+    optional<TextureEnv> specularEnvironmentTexture,
+    optional<Texture2d> ggxLookup,
+    vec4 u_baseColor,
+    float u_occlusion,
+    float u_metallic,
+    float u_perceptualRoughness,
+    float u_occlusionStrength,
+    float u_normalMapScale,
+    out vec4 Color)
+{
+  vec3 vertexNormal = getVertexNormal();
+  Color = PBRColor( baseColorTexture,
+                    metallicRoughnessTexture,
+                    occlusionTexture,
+                    combinedOrmTexture,
+                    emissiveTexture,
+                    normalMapTexture,
+                    diffuseEnvironmentTexture,
+                    specularEnvironmentTexture,
+                    ggxLookup,
+                    u_baseColor,
+                    u_occlusion,
+                    u_metallic,
+                    u_perceptualRoughness,
+                    u_occlusionStrength,
+                    u_normalMapScale,
+                    vertexNormal);
+}

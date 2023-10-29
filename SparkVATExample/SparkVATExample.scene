@@ -107,6 +107,163 @@
               },
               "children": [
                 {
+                  "modelName": "ambient_light_source_model",
+                  "name": "ambientLight0",
+                  "identifier": "ambient_light_source_model:101790-e15a957c-7802-46f6-a274-c271deb9215c",
+                  "animationMask": {
+                    "position": false,
+                    "rotation": false,
+                    "scale": false
+                  },
+                  "cameraVisibility": "back|front",
+                  "color": "0xffffffff",
+                  "hidden": false,
+                  "intensity": 0.528107225894928,
+                  "layerIdentifier": "layer0",
+                  "outputVisibility": "preview|capture",
+                  "physicsEnabled": false,
+                  "tags": [],
+                  "transform": {
+                    "rx": 0,
+                    "ry": 0,
+                    "rz": 0,
+                    "sx": 1,
+                    "sy": 1,
+                    "sz": 1,
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                },
+                {
+                  "modelName": "directional_light_source_model",
+                  "name": "directionalLight0",
+                  "identifier": "directional_light_source_model:96169-e15a957c-7802-46f6-a274-c271deb9215c",
+                  "animationMask": {
+                    "position": false,
+                    "rotation": false,
+                    "scale": false
+                  },
+                  "cameraVisibility": "back|front",
+                  "castShadow": false,
+                  "color": "0xffffffff",
+                  "hidden": false,
+                  "intensity": 1,
+                  "layerIdentifier": "layer0",
+                  "outputVisibility": "preview|capture",
+                  "physicsEnabled": false,
+                  "shadowBias": 0,
+                  "shadowFrustumDepth": 1,
+                  "shadowFrustumSize": 0.5,
+                  "shadowNear": 0.05,
+                  "shadowSoftness": 0,
+                  "shadowStrength": 1,
+                  "shadowTextureSize": 512,
+                  "tags": [],
+                  "transform": {
+                    "rx": -1.4266184568405151,
+                    "ry": -0.9596645832061768,
+                    "rz": 1.0422743558883667,
+                    "sx": 1.0000005960464478,
+                    "sy": 1.0000001192092896,
+                    "sz": 1.0000004768371582,
+                    "x": 0.161558598279953,
+                    "y": 0.6609346866607666,
+                    "z": 0.7070004343986511
+                  }
+                },
+                {
+                  "modelName": "3_d_object_instance_model",
+                  "name": "Cube1",
+                  "identifier": "master3_d_object_model148319-cc9a3208-a928-48fb-b18c-7dc94c78fbd6",
+                  "sourceIdentifier": "master3_d_object_model:98241-59475738-5664-4764-8ac9-c50ef01c8d34",
+                  "animationMask": {
+                    "position": false,
+                    "rotation": false,
+                    "scale": false
+                  },
+                  "cameraVisibility": "back|front",
+                  "depth": 0.5607011914253235,
+                  "height": 0.5609457492828369,
+                  "hidden": false,
+                  "layerIdentifier": "layer0",
+                  "outputVisibility": "preview|capture",
+                  "physicsEnabled": false,
+                  "tags": [],
+                  "transform": {
+                    "rx": 0,
+                    "ry": 0,
+                    "rz": 0,
+                    "sx": 1,
+                    "sy": 1,
+                    "sz": 1,
+                    "x": 0.000029744114726781845,
+                    "y": 0.5257965326309204,
+                    "z": 0
+                  },
+                  "width": 0.5602449178695679,
+                  "children": [
+                    {
+                      "modelName": "mesh",
+                      "name": "export_mesh",
+                      "identifier": "mesh148322-cc9a3208-a928-48fb-b18c-7dc94c78fbd6",
+                      "sourceIdentifier": "mesh:98229-59475738-5664-4764-8ac9-c50ef01c8d34",
+                      "animationMask": {
+                        "position": false,
+                        "rotation": false,
+                        "scale": false
+                      },
+                      "cameraVisibility": "back|front",
+                      "castShadow": false,
+                      "hidden": false,
+                      "layerIdentifier": "layer0",
+                      "nodeName": "export_mesh",
+                      "numberOfFaces": 588,
+                      "outputVisibility": "preview|capture",
+                      "physicsEnabled": false,
+                      "prefabIdentifier": "gltf:98235-59475738-5664-4764-8ac9-c50ef01c8d34",
+                      "receiveShadow": false,
+                      "renderPass": "main_scene",
+                      "tags": [],
+                      "transform": {
+                        "rx": 0,
+                        "ry": 0,
+                        "rz": 0,
+                        "sx": 1,
+                        "sy": 1,
+                        "sz": 1,
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "useEmbeddedBlendshapes": false,
+                      "children": [
+                        {
+                          "modelName": "surfaces",
+                          "identifier": "surfaces148325-cc9a3208-a928-48fb-b18c-7dc94c78fbd6",
+                          "sourceIdentifier": "surfaces:98231-59475738-5664-4764-8ac9-c50ef01c8d34",
+                          "children": [
+                            {
+                              "modelName": "surface",
+                              "name": "surface0",
+                              "identifier": "surface148328-cc9a3208-a928-48fb-b18c-7dc94c78fbd6",
+                              "sourceIdentifier": "surface:98238-59475738-5664-4764-8ac9-c50ef01c8d34",
+                              "isMaterialIdentifierEnabled": true,
+                              "materialIdentifier": "shader_code_asset_material_model:94154-e15a957c-7802-46f6-a274-c271deb9215c",
+                              "surfaceGroupIdentifier": "98239-59475738-5664-4764-8ac9-c50ef01c8d34"
+                            }
+                          ]
+                        },
+                        {
+                          "modelName": "blend_shapes_model",
+                          "identifier": "blend_shapes_model148331-cc9a3208-a928-48fb-b18c-7dc94c78fbd6",
+                          "sourceIdentifier": "blend_shapes_model:98233-59475738-5664-4764-8ac9-c50ef01c8d34"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
                   "modelName": "3_d_object_instance_model",
                   "name": "Cube",
                   "identifier": "master3_d_object_model:98421-59475738-5664-4764-8ac9-c50ef01c8d34",

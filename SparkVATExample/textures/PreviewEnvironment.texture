@@ -1,0 +1,28 @@
+{
+  "modelName": "texture",
+  "name": "studio_preview",
+  "identifier": "texture:94729-e15a957c-7802-46f6-a274-c271deb9215c",
+  "alphaPremultiplicationMode": "none",
+  "assetLocator": "94730-e15a957c-7802-46f6-a274-c271deb9215c.png",
+  "colorEncoding": "linear",
+  "compressionQuality": "high",
+  "coordMapping": "equirectangular",
+  "excludeDuringExport": true,
+  "excludeFromPackage": false,
+  "exportConfigurations": [
+    "textureExportConfig:94732-e15a957c-7802-46f6-a274-c271deb9215c",
+    "textureExportConfig:94734-e15a957c-7802-46f6-a274-c271deb9215c",
+    "textureExportConfig:94736-e15a957c-7802-46f6-a274-c271deb9215c"
+  ],
+  "externalSourceLocator": "sparkarstudio://arlibrary/facebook/texture/2769868026444017",
+  "filter": "bilinear",
+  "hasOfflineMipmaps": false,
+  "height": 256,
+  "importIssues": {},
+  "isExternalAsset": false,
+  "smartTextureTargetSizeLimit": "largest",
+  "targetSize": "largest",
+  "uWrapMode": "repeat",
+  "vWrapMode": "clamp",
+  "width": 512
+}

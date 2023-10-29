@@ -1,0 +1,36 @@
+{
+  "modelName": "texture",
+  "name": "BRDF-lookup-LUT",
+  "identifier": "texture:96015-e15a957c-7802-46f6-a274-c271deb9215c",
+  "alphaPremultiplicationMode": "should_premultiply",
+  "assetDataHash": "2664ccc19ebc47e453a3655c323140b6",
+  "assetLocator": "textures/BRDF-lookup-LUT.png",
+  "colorEncoding": "linear",
+  "compressionQuality": "high",
+  "coordMapping": "none",
+  "excludeDuringExport": false,
+  "excludeFromPackage": false,
+  "filter": "bilinear",
+  "hasOfflineMipmaps": false,
+  "height": 247,
+  "importIssues": {},
+  "isExternalAsset": true,
+  "smartTextureTargetSizeLimit": "largest",
+  "targetSize": "largest",
+  "uWrapMode": "clamp",
+  "vWrapMode": "clamp",
+  "width": 247,
+  "children": [
+    {
+      "modelName": "data_texture_metadata_model",
+      "name": "data_texture_metadata_model0",
+      "assetDataHash": "2664ccc19ebc47e453a3655c323140b6",
+      "colorCount": 8366,
+      "detectedAlphaChannel": "no_alpha",
+      "detectedOriginalFormat": "png",
+      "entropyOfDistribution": 10.871327869182121,
+      "pixelsHigh": 247,
+      "pixelsWide": 247
+    }
+  ]
+}
