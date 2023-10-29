@@ -29,6 +29,8 @@ select frame range and output directory
 
 click 'Process Anim Meshes'
 
+observe the changed 'Scale Factor' in the UI...
+
 
 ### Installing the Shader in Spark AR
 
@@ -39,6 +41,8 @@ Drag and drop everything from the output directory above into your project
 make a new material with the shader and populate the outputs
 
 assign it to the exported mesh from the output directory
+
+enter the Scale Factor from the Blender UI in the appropriate field
 
 
 
