@@ -11,6 +11,7 @@ export vec2 calculateNormal(  optional<std::Texture2d> normalTex,
                               float normalScale,
                               float normalTile )
 {
+    vec2 uv = getVertexTexCoord();
     vec3 vU = safeNormalize( vec3( getModelViewMatrix() * getVertexPosition() ) );
 
     vec3 nTex = normalTex.sample(uv * normalTile).valueOr(vec4(0.5,0.5,1.0,1.0)).xyz * 2.0 - 1.0;

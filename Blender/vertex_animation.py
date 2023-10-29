@@ -157,6 +157,21 @@ def write_output_image(pixel_list, name, size, output_dir):
     low_image.pixels = low_bytes_list
     low_image.save_render(output_dir + name + "_low.png", scene=bpy.context.scene)
 
+# Function to store the current scene's unit settings
+def store_unit_settings(context):
+    original_units = context.scene.unit_settings.system
+    original_scale = context.scene.unit_settings.scale_length
+    return (original_units, original_scale)
+
+# Function to set the scene's units to metric and scale to 0.01
+def set_metric_units(context):
+    context.scene.unit_settings.system = 'METRIC'
+    context.scene.unit_settings.scale_length = 0.01
+
+# Function to reset the scene's unit settings to the original
+def reset_unit_settings(context, original_settings):
+    context.scene.unit_settings.system, context.scene.unit_settings.scale_length = original_settings
+
 
 class OBJECT_OT_ProcessAnimMeshes(bpy.types.Operator):
     """Store combined per frame vertex offsets and normals for all
@@ -180,6 +195,12 @@ class OBJECT_OT_ProcessAnimMeshes(bpy.types.Operator):
         return ob and ob.type == 'MESH' and ob.mode == 'OBJECT'
 
     def execute(self, context):
+        # Store original settings
+        original_settings = store_unit_settings(context)
+
+        # Set to metric and scale 0.01
+        set_metric_units(context)
+
         units = context.scene.unit_settings
         data = bpy.data
         objects = [ob for ob in context.selected_objects if ob.type == 'MESH']
@@ -229,6 +250,9 @@ class OBJECT_OT_ProcessAnimMeshes(bpy.types.Operator):
 
         # Reset display device to its original value
         bpy.context.scene.display_settings.display_device = current_display_device
+
+        # Reset unit settings
+        reset_unit_settings(context, original_settings)
 
         return {'FINISHED'}
 
