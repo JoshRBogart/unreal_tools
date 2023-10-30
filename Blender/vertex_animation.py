@@ -138,6 +138,16 @@ def float_to_bytes(float_value):
 
 
 def write_output_image(pixel_list, name, size, output_dir):
+    # Make sure the width and height are at least 32 pixels
+    width, height = size
+    target_width = max(32, width)
+    target_height = max(32, height)
+
+    # Determine if scaling is needed
+    scale_needed = size[0] < 32 or size[1] < 32
+    target_width = max(32, size[0])
+    target_height = max(32, size[1])
+
     # Convert the pixel list to high and low bytes
     high_bytes_list = []
     low_bytes_list = []
@@ -150,11 +160,15 @@ def write_output_image(pixel_list, name, size, output_dir):
     # Create and save high byte image
     high_image = bpy.data.images.new(name + "_high", width=size[0], height=size[1])
     high_image.pixels = high_bytes_list
+    if scale_needed:
+        high_image.scale(target_width, target_height)  # Scale the image if needed
     high_image.save_render(output_dir + name + "_high.png", scene=bpy.context.scene)
 
     # Create and save low byte image
     low_image = bpy.data.images.new(name + "_low", width=size[0], height=size[1])
     low_image.pixels = low_bytes_list
+    if scale_needed:
+        low_image.scale(target_width, target_height)  # Scale the image if needed
     low_image.save_render(output_dir + name + "_low.png", scene=bpy.context.scene)
 
 # Function to store the current scene's unit settings
