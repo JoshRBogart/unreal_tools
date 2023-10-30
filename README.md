@@ -55,3 +55,6 @@ enter the Scale Factor from the Blender UI in the appropriate field
 ## Acknowledgments
 * Adapted for Spark from the Blender scripts created by **Joshua Bogart**
 * Adapted for Blender from 3ds Max scripts created by **Jonathan Lindquist** at **Epic Games**.
+
+## Tech Info
+If you're interested in the internals of the workflow, check [Texture Animation: Applying Morphing and Vertex Animation Techniques](https://medium.com/tech-at-wildlife-studios/texture-animation-techniques-1daecb316657)
