@@ -53,7 +53,7 @@ assign it to the exported mesh from the output directory
 
 
 ### Known Limitations
-Because of Texture Size limits in Spark, this workflow can only process meshes of up to 1024 vertices and up to 1024 frames
+Because of Texture Size limits in Spark, this workflow can only process meshes of up to 1024 vertices and up to 1024 frames (roughly 40 seconds at 25fps)
 
 Vertex Order can't change between frames, which means that the mesh has to stay consistent between frames
 
