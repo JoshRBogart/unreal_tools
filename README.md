@@ -32,7 +32,7 @@ select frame range and output directory
 
 click 'Process Anim Meshes'
 
-observe the changed 'Scale Factor' in the UI...
+**observe the changed 'Scale Factor' in the UI...**
 
 
 ### Installing the Shader in Spark AR
