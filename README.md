@@ -48,6 +48,7 @@ assign it to the exported mesh from the output directory
 
 **enter the Scale Factor from the Blender UI in the appropriate field**
 
+![](https://github.com/MateSteinforth/SparkAR-VAT/blob/master/Scale%20Factor.png)
 
 
 ## Authors
