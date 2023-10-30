@@ -40,11 +40,13 @@ Drag and drop [SparkVAT.sca](https://github.com/MateSteinforth/SparkAR-VAT/blob/
 
 Drag and drop everything from the output directory above into your project
 
+set compression to 'none' for all imported textures
+
 make a new material with the shader and populate the outputs
 
 assign it to the exported mesh from the output directory
 
-enter the Scale Factor from the Blender UI in the appropriate field
+**enter the Scale Factor from the Blender UI in the appropriate field**
 
 
 
