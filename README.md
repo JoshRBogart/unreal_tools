@@ -7,7 +7,7 @@ A combination of scripts for Blender and Meta Spark AR to play back arbitrarily 
 
 
 ### Known Limitations
-Vertex offset between the first and last frame can't be more than 1 scene unit (will be fixed/adapted)
+Because of Texture Size limits in Spark, this workflow can only process meshes of up to 1024 vertices and up to 1024 frames
 
 
 ### Installing the Script in Blender
@@ -33,6 +33,8 @@ observe the changed 'Scale Factor' in the UI...
 
 
 ### Installing the Shader in Spark AR
+
+Enable Vertex Texture Fetch in Project > Edirt Properties... > Capabilities > + > Vertex Texture Fetch
 
 Drag and drop [SparkVAT.sca](https://github.com/MateSteinforth/SparkAR-VAT/blob/master/SparkVATExample/shaders/SparkVAT.sca) into your project
 
