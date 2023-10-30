@@ -38,6 +38,9 @@ Enable Vertex Texture Fetch in Project > Edirt Properties... > Capabilities > + 
 
 Drag and drop [SparkVAT.sca](https://github.com/MateSteinforth/SparkAR-VAT/blob/master/SparkVATExample/shaders/SparkVAT.sca) into your project
 
+
+### Importing an Animation
+
 Drag and drop everything from the output directory above into your project
 
 set compression to 'none' for all imported textures
