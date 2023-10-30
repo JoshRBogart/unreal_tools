@@ -6,9 +6,12 @@ A combination of scripts for Blender and Meta Spark AR to play back arbitrarily 
 ![](https://github.com/MateSteinforth/SparkAR-VAT/blob/master/animatedCube.gif)
 
 
-### Known Limitations
-Because of Texture Size limits in Spark, this workflow can only process meshes of up to 1024 vertices and up to 1024 frames
+## Tutorial
 
+[![Tutorial](https://img.youtube.com/vi/3QTR3udqjTM/0.jpg)](https://www.youtube.com/watch?v=3QTR3udqjTM)
+
+
+## Quickstart
 
 ### Installing the Script in Blender
 
@@ -52,6 +55,10 @@ assign it to the exported mesh from the output directory
 **enter the Scale Factor from the Blender UI in the appropriate field**
 
 ![](https://github.com/MateSteinforth/SparkAR-VAT/blob/master/Scale%20Factor.png)
+
+
+### Known Limitations
+Because of Texture Size limits in Spark, this workflow can only process meshes of up to 1024 vertices and up to 1024 frames
 
 
 ## Authors
