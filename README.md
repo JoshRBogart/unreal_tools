@@ -5,6 +5,10 @@ A combination of scripts for Blender and Meta Spark AR to play back arbitrarily 
 
 ![](https://github.com/MateSteinforth/SparkAR-VAT/blob/master/animatedCube.gif)
 
+## Tutorial
+
+[![Tutorial](https://img.youtube.com/vi/I7gRhAeAm30/0.jpg)](https://www.youtube.com/watch?v=I7gRhAeAm30)
+
 
 ## Quickstart
 
