@@ -68,23 +68,56 @@ def export_mesh(context, obj, name):
 
     bpy.ops.export_scene.fbx(filepath=output_dir, use_selection=True, apply_unit_scale=False, use_space_transform=False, apply_scale_options='FBX_SCALE_ALL')
 
-    # Delete the mesh after saving
-    bpy.ops.object.delete()
 
 
 def create_export_mesh_object(context, data, me):
-    """Return a mesh object with correct UVs"""
+    """Return a mesh object with correct UVs spread across a single texture."""
+    max_vertices_per_chunk = 1024  # Our set maximum vertices for each chunk.
+
     while len(me.uv_layers) < 2:
         me.uv_layers.new()
     uv_layer = me.uv_layers[1]
     uv_layer.name = "vertex_anim"
+
+    max_vertex_index = len(me.vertices)
+    total_chunks = -(-max_vertex_index // max_vertices_per_chunk)  # Ceiling division to get total number of chunks.
+
+    # Determine the vertical step for each chunk in UV coordinates.
+    vertical_step = 1.0 / total_chunks
+    half_pixel_v_offset = 0.5 / max_vertices_per_chunk  # For vertical positioning.
+
     for loop in me.loops:
-        uv_layer.data[loop.index].uv = (
-            (loop.vertex_index + 0.5)/len(me.vertices), 128/255
-        )
+        chunk_number = loop.vertex_index // max_vertices_per_chunk
+        index_in_chunk = loop.vertex_index % max_vertices_per_chunk
+
+        # Calculate U coordinate: position it in the middle of the pixel, based on a 1024 grid.
+        u_coord = (index_in_chunk + 0.5) / max_vertices_per_chunk
+
+        # Calculate V coordinate: position it based on the chunk and add the half-pixel offset.
+        v_base = chunk_number * vertical_step
+        v_coord = v_base + (half_pixel_v_offset * vertical_step)
+
+        uv_layer.data[loop.index].uv = (u_coord, v_coord)
+
     ob = data.objects.new("export_mesh", me)
     context.scene.collection.objects.link(ob)
     return ob
+
+
+
+# def create_export_mesh_object(context, data, me):
+#     """Return a mesh object with correct UVs"""
+#     while len(me.uv_layers) < 2:
+#         me.uv_layers.new()
+#     uv_layer = me.uv_layers[1]
+#     uv_layer.name = "vertex_anim"
+#     for loop in me.loops:
+#         uv_layer.data[loop.index].uv = (
+#             (loop.vertex_index + 0.5)/len(me.vertices), 128/255
+#         )
+#     ob = data.objects.new("export_mesh", me)
+#     context.scene.collection.objects.link(ob)
+#     return ob
 
 
 def get_vertex_data(context, data, meshes):
@@ -234,12 +267,12 @@ class OBJECT_OT_ProcessAnimMeshes(bpy.types.Operator):
                 "Scene Unit must be Metric with a Unit Scale of 0.01!"
             )
             return {'CANCELLED'}
-        if vertex_count > 1024:
-            self.report(
-                {'ERROR'},
-                f"Vertex count of {vertex_count :,}, execedes limit of 1024!"
-            )
-            return {'CANCELLED'}
+        # if vertex_count > 1024:
+        #     self.report(
+        #         {'ERROR'},
+        #         f"Vertex count of {vertex_count :,}, execedes limit of 1024!"
+        #     )
+        #     return {'CANCELLED'}
         if frame_count > 1024:
             self.report(
                 {'ERROR'},
@@ -261,6 +294,10 @@ class OBJECT_OT_ProcessAnimMeshes(bpy.types.Operator):
         texture_size = vertex_count, frame_count
         bake_vertex_data(context, data, offsets, normals, texture_size, myname)
         export_mesh(context, obj, myname)
+
+
+        # # Delete the mesh after saving
+        # bpy.ops.object.delete()
 
         # Reset display device to its original value
         bpy.context.scene.display_settings.display_device = current_display_device
