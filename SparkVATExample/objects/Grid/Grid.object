@@ -1,0 +1,86 @@
+{
+  "modelName": "master3_d_object_model",
+  "name": "Grid",
+  "identifier": "master3_d_object_model:449435-0f8e3482-53a3-42f3-a2f8-4af349427539",
+  "sourceIdentifier": "asset_collection_model:449439-0f8e3482-53a3-42f3-a2f8-4af349427539",
+  "animationMask": {
+    "position": false,
+    "rotation": false,
+    "scale": false
+  },
+  "cameraVisibility": "back|front",
+  "depth": 1.8887526988983154,
+  "globalScaleFactor": 1,
+  "height": 2,
+  "hidden": false,
+  "outputVisibility": "preview|capture",
+  "physicsEnabled": false,
+  "tags": [],
+  "transform": {
+    "rx": 0,
+    "ry": 0,
+    "rz": 0,
+    "sx": 1,
+    "sy": 1,
+    "sz": 1,
+    "x": 0,
+    "y": 0,
+    "z": 0
+  },
+  "width": 2,
+  "children": [
+    {
+      "modelName": "mesh",
+      "name": "export_mesh",
+      "identifier": "mesh:449423-0f8e3482-53a3-42f3-a2f8-4af349427539",
+      "animationMask": {
+        "position": false,
+        "rotation": false,
+        "scale": false
+      },
+      "cameraVisibility": "back|front",
+      "castShadow": false,
+      "hidden": false,
+      "nodeName": "export_mesh",
+      "numberOfFaces": 7360,
+      "outputVisibility": "preview|capture",
+      "physicsEnabled": false,
+      "prefabIdentifier": "gltf:449429-0f8e3482-53a3-42f3-a2f8-4af349427539",
+      "receiveShadow": false,
+      "renderPass": "main_scene",
+      "tags": [],
+      "transform": {
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 1,
+        "sy": 1,
+        "sz": 1,
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "useEmbeddedBlendshapes": false,
+      "children": [
+        {
+          "modelName": "surfaces",
+          "identifier": "surfaces:449425-0f8e3482-53a3-42f3-a2f8-4af349427539",
+          "children": [
+            {
+              "modelName": "surface",
+              "name": "surface0",
+              "identifier": "surface:449432-0f8e3482-53a3-42f3-a2f8-4af349427539",
+              "isMaterialIdentifierEnabled": true,
+              "materialIdentifier": "dependent_material_model:449419-0f8e3482-53a3-42f3-a2f8-4af349427539",
+              "surfaceGroupIdentifier": "449433-0f8e3482-53a3-42f3-a2f8-4af349427539"
+            }
+          ]
+        },
+        {
+          "modelName": "blend_shapes_model",
+          "identifier": "blend_shapes_model:449427-0f8e3482-53a3-42f3-a2f8-4af349427539"
+        }
+      ]
+    }
+  ]
+}

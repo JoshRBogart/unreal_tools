@@ -1,0 +1,70 @@
+{
+  "id": "405173d5b3073e1e57475fba35a67c8a0e3e1d",
+  "revision": "405174d5b3073e1e57475fba35a67c8a0e3e1d",
+  "version": {
+    "dev": 0,
+    "patch": 0,
+    "prod": 172
+  },
+  "creatorIdentifier": "com.facebook.arstudio.skylight",
+  "creatorPlatform": "macosx",
+  "creatorFileVersion": {
+    "dev": 0,
+    "patch": 0,
+    "prod": 172
+  },
+  "visual_programming": {
+    "connections": [
+      {
+        "modelName": "patch_connection_model",
+        "identifier": "patch_connection_model:467790-0f8e3482-53a3-42f3-a2f8-4af349427539",
+        "fromPatch": "template_patch_model:438669-0f8e3482-53a3-42f3-a2f8-4af349427539",
+        "fromPort": "1001",
+        "toPatch": "consumer_patch_model:464506-0f8e3482-53a3-42f3-a2f8-4af349427539",
+        "toPort": "1"
+      }
+    ],
+    "graphs": [
+      {
+        "modelName": "patch_graph",
+        "identifier": "patch_graph:405265-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+        "subpatches": [
+          "consumer_patch_model:464506-0f8e3482-53a3-42f3-a2f8-4af349427539",
+          "template_patch_model:438669-0f8e3482-53a3-42f3-a2f8-4af349427539"
+        ]
+      }
+    ],
+    "patches": [
+      {
+        "modelName": "consumer_patch_model",
+        "name": "phoenix-packed",
+        "identifier": "consumer_patch_model:464506-0f8e3482-53a3-42f3-a2f8-4af349427539",
+        "object": "composed_material_parameter_model:462490-0f8e3482-53a3-42f3-a2f8-4af349427539",
+        "objectProperty": "shader_parameter",
+        "position": [
+          620,
+          140
+        ]
+      },
+      {
+        "modelName": "template_patch_model",
+        "name": "Loop Animation",
+        "identifier": "template_patch_model:438669-0f8e3482-53a3-42f3-a2f8-4af349427539",
+        "position": [
+          116,
+          92
+        ],
+        "templateId": "builtin.group.loopAnimation",
+        "values": [
+          {
+            "port": "102",
+            "value": {
+              "t": "double",
+              "v": 4
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

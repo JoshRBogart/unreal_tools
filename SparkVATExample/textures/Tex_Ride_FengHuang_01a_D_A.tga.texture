@@ -1,0 +1,36 @@
+{
+  "modelName": "texture",
+  "name": "Tex_Ride_FengHuang_01a_D_A.tga",
+  "identifier": "texture:455838-0f8e3482-53a3-42f3-a2f8-4af349427539",
+  "alphaPremultiplicationMode": "should_premultiply",
+  "assetDataHash": "a889a1b4dffec5c24be7e580f8577746",
+  "assetLocator": "textures/Tex_Ride_FengHuang_01a_D_A.tga.png",
+  "colorEncoding": "linear",
+  "compressionQuality": "high",
+  "coordMapping": "none",
+  "excludeDuringExport": false,
+  "excludeFromPackage": false,
+  "filter": "bilinear",
+  "hasOfflineMipmaps": false,
+  "height": 512,
+  "importIssues": {},
+  "isExternalAsset": true,
+  "smartTextureTargetSizeLimit": "largest",
+  "targetSize": "largest",
+  "uWrapMode": "clamp",
+  "vWrapMode": "clamp",
+  "width": 512,
+  "children": [
+    {
+      "modelName": "data_texture_metadata_model",
+      "name": "data_texture_metadata_model0",
+      "assetDataHash": "a889a1b4dffec5c24be7e580f8577746",
+      "colorCount": 33106,
+      "detectedAlphaChannel": "eight_bit_full_range",
+      "detectedOriginalFormat": "png",
+      "entropyOfDistribution": 12.603114373269301,
+      "pixelsHigh": 512,
+      "pixelsWide": 512
+    }
+  ]
+}

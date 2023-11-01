@@ -1,12 +1,12 @@
 precision highp float;
 using namespace std;
 #import <utils>
-#import <SparkVAT.sca>
+#import <SparkVATpacked.sca>
 #import <MatCap.sca>
 
 // @param[default=1.0] normalScale
 // @param[default=1.0] normalTile
-// @param[default=1.0] speed
+// @param[default=0.0] frame
 // @param[default=1.0] scaleFactor
 // @return color
 // @return position
@@ -19,13 +19,14 @@ void main(  optional<std::Texture2d> matcapTex,
             optional<float> scaleFactor,
             float normalScale,
             float normalTile,
-            float speed,
+            float frame,
+            int chunks,
             out vec4 Color,
             out vec4 Position)
 
 {
   // Attributes
-  float frame = mod(getTime()*speed,1.0);
+  frame = -(1.-frame)*1./float(chunks);
 
   mat3 tangentFrame = VATgetTangentFrame(normalHigh, normalLow, frame);
   vec2 calculatedNormal = calculateNormal(normalTex, tangentFrame, normalScale, normalTile);

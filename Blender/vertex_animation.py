@@ -34,6 +34,7 @@ bl_info = {
 import bpy
 import bmesh
 import mathutils
+import math
 
 def get_per_frame_mesh_data(context, data, objects):
     """Return a list of combined mesh data per frame"""
@@ -158,8 +159,8 @@ def bake_vertex_data(context, data, offsets, normals, size, name):
     """Stores vertex offsets and normals in seperate image textures"""
     width, height = size
     output_dir = bpy.path.abspath(context.scene.output_dir)
-    write_output_image(offsets, name + "_position", size, output_dir)
-    write_output_image(normals, name + "_normal", size, output_dir)
+    write_output_image(offsets, name + "_position", size, output_dir, context)
+    write_output_image(normals, name + "_normal", size, output_dir, context)
 
 
 def float_to_bytes(float_value):
@@ -170,17 +171,65 @@ def float_to_bytes(float_value):
     return high_byte, low_byte
 
 
-def write_output_image(pixel_list, name, size, output_dir):
-    # Make sure the width and height are at least 32 pixels
+def create_and_save_image(name_postfix, size, byte_list, output_dir, context):
+    """
+    Create images from byte list in 1024-pixel wide chunks, preserving the Y-order of the data.
+    """
     width, height = size
-    target_width = max(32, width)
-    target_height = max(32, height)
+    max_chunk_width = 1024
+    padding_color = [127/255, 127/255, 127/255, 1]  # RGBA padding
 
-    # Determine if scaling is needed
-    scale_needed = size[0] < 32 or size[1] < 32
-    target_width = max(32, size[0])
-    target_height = max(32, size[1])
+    # Calculate the number of full max_chunk_width wide chunks and any remaining width
+    full_chunk_count = width // max_chunk_width
+    remainder_width = width % max_chunk_width
 
+    combined_byte_list = []
+
+    num_chunks = full_chunk_count + (1 if remainder_width else 0)
+    context.scene.num_chunks = num_chunks
+
+    # Process full chunks first
+    for i in range(full_chunk_count):
+        for y in range(height):
+            start_index = (y * width + i * max_chunk_width) * 4
+            end_index = start_index + max_chunk_width * 4
+            combined_byte_list.extend(byte_list[start_index:end_index])
+
+    # Process the remainder
+    if remainder_width:
+        # Process remainder as rows
+        for y in range(height):
+            start_index = (y * width + full_chunk_count * max_chunk_width) * 4
+            end_index = start_index + remainder_width * 4
+            combined_byte_list.extend(byte_list[start_index:end_index])
+            combined_byte_list.extend(padding_color * (max_chunk_width - remainder_width))  # Fill the remainder with RGB 127,127,127
+
+    # Calculate combined image dimensions
+    combined_image_width = max_chunk_width
+    combined_image_height = height * (full_chunk_count + (1 if remainder_width else 0))
+
+    # Ensure minimum dimensions of 32 pixels
+    combined_image_width = max(32, combined_image_width)
+    combined_image_height = max(32, combined_image_height)
+
+    # Create the image
+    combined_image = bpy.data.images.new(f"{name_postfix}", width=combined_image_width, height=combined_image_height)
+    combined_image.pixels = combined_byte_list
+
+    # Scale if necessary (only if original size was below 32 in either dimension)
+    if width < 32 or height < 32:
+        combined_image.scale(combined_image_width, combined_image_height)
+
+    # Save and remove the temporary image
+    combined_image.save_render(f"{output_dir}{name_postfix}.png", scene=bpy.context.scene)
+    bpy.data.images.remove(combined_image)
+
+    # Return the number of chunks
+    return full_chunk_count + (1 if remainder_width else 0)
+
+
+
+def write_output_image(pixel_list, name, size, output_dir, context):
     # Convert the pixel list to high and low bytes
     high_bytes_list = []
     low_bytes_list = []
@@ -191,18 +240,11 @@ def write_output_image(pixel_list, name, size, output_dir):
         low_bytes_list.append(low_byte / 255.0)
 
     # Create and save high byte image
-    high_image = bpy.data.images.new(name + "_high", width=size[0], height=size[1])
-    high_image.pixels = high_bytes_list
-    if scale_needed:
-        high_image.scale(target_width, target_height)  # Scale the image if needed
-    high_image.save_render(output_dir + name + "_high.png", scene=bpy.context.scene)
+    create_and_save_image(name + "_high", size, high_bytes_list, output_dir, context)
 
     # Create and save low byte image
-    low_image = bpy.data.images.new(name + "_low", width=size[0], height=size[1])
-    low_image.pixels = low_bytes_list
-    if scale_needed:
-        low_image.scale(target_width, target_height)  # Scale the image if needed
-    low_image.save_render(output_dir + name + "_low.png", scene=bpy.context.scene)
+    create_and_save_image(name + "_low", size, low_bytes_list, output_dir, context)
+
 
 # Function to store the current scene's unit settings
 def store_unit_settings(context):
@@ -267,16 +309,11 @@ class OBJECT_OT_ProcessAnimMeshes(bpy.types.Operator):
                 "Scene Unit must be Metric with a Unit Scale of 0.01!"
             )
             return {'CANCELLED'}
-        # if vertex_count > 1024:
-        #     self.report(
-        #         {'ERROR'},
-        #         f"Vertex count of {vertex_count :,}, execedes limit of 1024!"
-        #     )
-        #     return {'CANCELLED'}
-        if frame_count > 1024:
+        max_frame_count =  1024 // ((math.ceil(vertex_count / 1024) * 1024) // 1024)
+        if frame_count > max_frame_count:
             self.report(
                 {'ERROR'},
-                f"Frame count of {frame_count :,}, execedes limit of 1024!"
+                f"Frame count of {frame_count :,}, execedes limit of {max_frame_count :,}, based on {vertex_count :,} vertices mesh."
             )
             return {'CANCELLED'}
 
@@ -295,15 +332,17 @@ class OBJECT_OT_ProcessAnimMeshes(bpy.types.Operator):
         bake_vertex_data(context, data, offsets, normals, texture_size, myname)
         export_mesh(context, obj, myname)
 
-
-        # # Delete the mesh after saving
-        # bpy.ops.object.delete()
+        # Delete the mesh after saving
+        bpy.ops.object.delete()
 
         # Reset display device to its original value
         bpy.context.scene.display_settings.display_device = current_display_device
 
         # Reset unit settings
         reset_unit_settings(context, original_settings)
+
+        # display chunkies
+        self.report({'INFO'}, f"Exported {num_chunks} chunk(s).")
 
         return {'FINISHED'}
 
@@ -324,9 +363,10 @@ class VIEW3D_PT_VertexAnimation(bpy.types.Panel):
         col = layout.column(align=True)
         col.prop(scene, "frame_start", text="Frame Start")
         col.prop(scene, "frame_end", text="End")
-        col.prop(scene, "frame_step", text="Step")
+        # col.prop(scene, "frame_step", text="Step")
         col.prop(scene, "output_dir", text="Output Directory")
         col.prop(scene, "scale_factor", text="Scale Factor")
+        col.prop(scene, "num_chunks", text="Number of Chunks")
         row = layout.row()
         row.operator("object.process_anim_meshes")
 
@@ -345,6 +385,11 @@ def register():
         description="Maximum vertex offset length used for normalization",
         default=1.0  # A reasonable default value
     )
+    bpy.types.Scene.num_chunks = bpy.props.FloatProperty(
+        name="Number of Chunks",
+        description="Put this into the Spark Shader",
+        default=1.0  # A reasonable default value
+    )
 
 
 def unregister():
@@ -352,6 +397,7 @@ def unregister():
     bpy.utils.unregister_class(VIEW3D_PT_VertexAnimation)
     del bpy.types.Scene.output_dir
     del bpy.types.Scene.scale_factor
+    del bpy.types.Scene.num_chunks
 
 
 if __name__ == "__main__":
