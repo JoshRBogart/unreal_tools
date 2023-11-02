@@ -1,7 +1,7 @@
 precision highp float;
 using namespace std;
 #import <utils>
-#import <SparkVATpacked.sca>
+#import <SparkVAT.sca>
 #import <MatCap.sca>
 
 // @param[default=1.0] normalScale
@@ -10,7 +10,8 @@ using namespace std;
 // @param[default=1.0] scaleFactor
 // @return color
 // @return position
-void main(  optional<std::Texture2d> matcapTex,
+void main(  optional<std::Texture2d> diffuseTex,
+            optional<std::Texture2d> matcapTex,
             optional<std::Texture2d> normalTex,
             optional<std::Texture2d> positionHigh,
             optional<std::Texture2d> positionLow,
@@ -26,11 +27,10 @@ void main(  optional<std::Texture2d> matcapTex,
 
 {
   // Attributes
-  frame = -(1.-frame)*1./float(chunks);
-
-  mat3 tangentFrame = VATgetTangentFrame(normalHigh, normalLow, frame);
+  vec2 uv = getVertexTexCoord();
+  mat3 tangentFrame = VATgetTangentFrame(normalHigh, normalLow, frame, chunks);
   vec2 calculatedNormal = calculateNormal(normalTex, tangentFrame, normalScale, normalTile);
 
-  Color = MatCapColor(matcapTex, calculatedNormal);
-  Position = VATposition(positionHigh, positionLow, frame, scaleFactor);
+  Color = diffuseTex.sample(uv).valueOr(vec4(0.)) + MatCapColor(matcapTex, calculatedNormal);
+  Position = VATposition(positionHigh, positionLow, frame, scaleFactor, chunks);
 }

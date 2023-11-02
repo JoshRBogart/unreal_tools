@@ -18,30 +18,34 @@ vec4 unpack16bitTexture(optional<std::Texture2d> positionHigh, optional<std::Tex
     return ((reconstructedValue / 65535.0) * 2.0 - 1.0);
 }
 
-export vec4 VATposition(optional<std::Texture2d> positionHigh, optional<std::Texture2d> positionLow, float frame, optional<float> scaleFactor) {
+export vec4 VATposition(optional<std::Texture2d> positionHigh, optional<std::Texture2d> positionLow, float frame, optional<float> scaleFactor, int chunks) {
     // Attributes
+    frame = -(1.-frame)*1./float(chunks);
+    scaleFactor = 1./scaleFactor;
     vec2 uv2 = getVertexTexCoord1().valueOr(vec2(0.0));
 
     // Calculate Position
-    vec4 unpackedPos = unpack16bitTexture(positionHigh, positionLow, vec2(uv2 + vec2(0., frame-0.5)));
+    vec4 unpackedPos = unpack16bitTexture(positionHigh, positionLow, vec2(uv2 + vec2(0., frame)));
     unpackedPos *= scaleFactor.valueOr(1.0);; // Apply scale factor to get the original offset magnitude
 
     vec4 yUpCoordinates = vec4(unpackedPos.x, -unpackedPos.y, unpackedPos.z, 1.0);
     return getModelViewProjectionMatrix() * (getVertexPosition() + yUpCoordinates);
 }
 
-export vec3 VATgetVertexNormal(optional<std::Texture2d> normalHigh, optional<std::Texture2d> normalLow, float frame) {
-  // Attributes
-  vec2 uv2 = getVertexTexCoord1().valueOr(vec2(0.0));
-  return unpack16bitTexture(normalHigh, normalLow, vec2(uv2 + vec2(0., frame-0.5))).xyz;
+export vec3 VATgetVertexNormal(optional<std::Texture2d> normalHigh, optional<std::Texture2d> normalLow, float frame, int chunks) {
+    // Attributes
+    frame = -(1.-frame)*1./float(chunks);
+
+    vec2 uv2 = getVertexTexCoord1().valueOr(vec2(0.0));
+    return unpack16bitTexture(normalHigh, normalLow, vec2(uv2 + vec2(0., frame))).xyz;
 }
 
-export mat3 VATgetTangentFrame(optional<std::Texture2d> normalHigh, optional<std::Texture2d> normalLow, float frame) {
+export mat3 VATgetTangentFrame(optional<std::Texture2d> normalHigh, optional<std::Texture2d> normalLow, float frame, int chunks) {
     // Attributes
     vec2 uv2 = getVertexTexCoord1().valueOr(vec2(0.0));
 
     // Calculate Tangent
-    vec3 nrm = VATgetVertexNormal(normalHigh, normalLow, frame);
+    vec3 nrm = VATgetVertexNormal(normalHigh, normalLow, frame, chunks);
     vec3 csTangent = mat3(getModelViewMatrix()) * getVertexTangent();
     vec3 csBitangent = cross(nrm, csTangent);
     return mat3(csTangent, csBitangent, nrm);
@@ -59,6 +63,7 @@ void main(  optional<std::Texture2d> diffuse,
             optional<std::Texture2d> matcapTex,
             float frame,
             float scaleFactor,
+            int chunks,
             out vec4 Color,
             out vec4 Position)
 
@@ -66,6 +71,6 @@ void main(  optional<std::Texture2d> diffuse,
   // Attributes
   vec2 uv = getVertexTexCoord();
 
-  Position = VATposition(positionHigh, positionLow, frame, scaleFactor);
+  Position = VATposition(positionHigh, positionLow, frame, scaleFactor, chunks);
   Color = diffuse.sample(uv).valueOr(vec4(1., 0., 0., 1.));
 }

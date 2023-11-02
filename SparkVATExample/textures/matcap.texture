@@ -1,10 +1,10 @@
 {
   "modelName": "texture",
-  "name": "10788-normal",
-  "identifier": "texture:421853-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
+  "name": "matcap",
+  "identifier": "texture:500368-0f8e3482-53a3-42f3-a2f8-4af349427539",
   "alphaPremultiplicationMode": "should_premultiply",
-  "assetDataHash": "cd2815920051df812ca3524988cf4bd1",
-  "assetLocator": "textures/10788-normal.jpg",
+  "assetDataHash": "e2204847f0b6ffa335bd94c74ef1a4d1",
+  "assetLocator": "textures/matcap.jpg",
   "colorEncoding": "linear",
   "compressionQuality": "high",
   "coordMapping": "none",
@@ -17,18 +17,18 @@
   "isExternalAsset": true,
   "smartTextureTargetSizeLimit": "largest",
   "targetSize": "largest",
-  "uWrapMode": "repeat",
-  "vWrapMode": "repeat",
+  "uWrapMode": "clamp",
+  "vWrapMode": "clamp",
   "width": 512,
   "children": [
     {
       "modelName": "data_texture_metadata_model",
       "name": "data_texture_metadata_model0",
-      "assetDataHash": "cd2815920051df812ca3524988cf4bd1",
-      "colorCount": 28494,
+      "assetDataHash": "e2204847f0b6ffa335bd94c74ef1a4d1",
+      "colorCount": 5058,
       "detectedAlphaChannel": "no_alpha",
       "detectedOriginalFormat": "jpeg",
-      "entropyOfDistribution": 4.250716779745792,
+      "entropyOfDistribution": 9.346707083188381,
       "pixelsHigh": 512,
       "pixelsWide": 512
     }

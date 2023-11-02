@@ -1,0 +1,41 @@
+{
+  "modelName": "texture",
+  "name": "Triceratops_position_low",
+  "identifier": "texture:493589-0f8e3482-53a3-42f3-a2f8-4af349427539",
+  "alphaPremultiplicationMode": "should_premultiply",
+  "assetDataHash": "7b1d865ba3b2741ba1a7c0fc0df2b0cb",
+  "assetLocator": "textures/Triceratops_position_low.png",
+  "colorEncoding": "linear",
+  "compressionQuality": "high",
+  "coordMapping": "none",
+  "excludeDuringExport": false,
+  "excludeFromPackage": false,
+  "exportConfigurations": [
+    "textureExportConfig:493637-0f8e3482-53a3-42f3-a2f8-4af349427539",
+    "textureExportConfig:493645-0f8e3482-53a3-42f3-a2f8-4af349427539",
+    "textureExportConfig:493653-0f8e3482-53a3-42f3-a2f8-4af349427539"
+  ],
+  "filter": "nearest",
+  "hasOfflineMipmaps": false,
+  "height": 900,
+  "importIssues": {},
+  "isExternalAsset": true,
+  "smartTextureTargetSizeLimit": "largest",
+  "targetSize": "largest",
+  "uWrapMode": "clamp",
+  "vWrapMode": "clamp",
+  "width": 1024,
+  "children": [
+    {
+      "modelName": "data_texture_metadata_model",
+      "name": "data_texture_metadata_model0",
+      "assetDataHash": "7b1d865ba3b2741ba1a7c0fc0df2b0cb",
+      "colorCount": 828282,
+      "detectedAlphaChannel": "no_alpha",
+      "detectedOriginalFormat": "png",
+      "entropyOfDistribution": 18.58058210952315,
+      "pixelsHigh": 900,
+      "pixelsWide": 1024
+    }
+  ]
+}

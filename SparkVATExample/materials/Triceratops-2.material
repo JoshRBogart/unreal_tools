@@ -1,7 +1,7 @@
 {
   "modelName": "shader_code_asset_material_model",
-  "name": "phoenix-packed",
-  "identifier": "shader_code_asset_material_model:452626-0f8e3482-53a3-42f3-a2f8-4af349427539",
+  "name": "Triceratops",
+  "identifier": "shader_code_asset_material_model:496134-0f8e3482-53a3-42f3-a2f8-4af349427539",
   "alphaTestEnabled": false,
   "alphaTestThreshold": 0,
   "blendMode": "alpha",
@@ -29,15 +29,28 @@
   "children": [
     {
       "modelName": "composed_material_parameters_model",
-      "identifier": "composed_material_parameters_model:452628-0f8e3482-53a3-42f3-a2f8-4af349427539",
+      "identifier": "composed_material_parameters_model:496136-0f8e3482-53a3-42f3-a2f8-4af349427539",
       "children": [
         {
           "modelName": "composed_material_parameter_model",
-          "name": "matcapTex",
-          "identifier": "composed_material_parameter_model:452640-0f8e3482-53a3-42f3-a2f8-4af349427539",
+          "name": "diffuseTex",
+          "identifier": "composed_material_parameter_model:498398-0f8e3482-53a3-42f3-a2f8-4af349427539",
           "hasTextureParameters": false,
           "isTextureIdentifierEnabled": false,
           "textureFilter": "bilinear",
+          "textureIdentifier": "texture:497322-0f8e3482-53a3-42f3-a2f8-4af349427539",
+          "textureWrapModeU": "repeat",
+          "textureWrapModeV": "repeat",
+          "type": "texture"
+        },
+        {
+          "modelName": "composed_material_parameter_model",
+          "name": "matcapTex",
+          "identifier": "composed_material_parameter_model:496148-0f8e3482-53a3-42f3-a2f8-4af349427539",
+          "hasTextureParameters": false,
+          "isTextureIdentifierEnabled": false,
+          "textureFilter": "bilinear",
+          "textureIdentifier": "texture:500368-0f8e3482-53a3-42f3-a2f8-4af349427539",
           "textureWrapModeU": "repeat",
           "textureWrapModeV": "repeat",
           "type": "texture"
@@ -45,10 +58,11 @@
         {
           "modelName": "composed_material_parameter_model",
           "name": "normalTex",
-          "identifier": "composed_material_parameter_model:456632-0f8e3482-53a3-42f3-a2f8-4af349427539",
+          "identifier": "composed_material_parameter_model:497388-0f8e3482-53a3-42f3-a2f8-4af349427539",
           "hasTextureParameters": false,
           "isTextureIdentifierEnabled": false,
           "textureFilter": "bilinear",
+          "textureIdentifier": "texture:506076-0f8e3482-53a3-42f3-a2f8-4af349427539",
           "textureWrapModeU": "repeat",
           "textureWrapModeV": "repeat",
           "type": "texture"
@@ -56,10 +70,11 @@
         {
           "modelName": "composed_material_parameter_model",
           "name": "positionHigh",
-          "identifier": "composed_material_parameter_model:452632-0f8e3482-53a3-42f3-a2f8-4af349427539",
+          "identifier": "composed_material_parameter_model:496140-0f8e3482-53a3-42f3-a2f8-4af349427539",
           "hasTextureParameters": false,
           "isTextureIdentifierEnabled": false,
           "textureFilter": "bilinear",
+          "textureIdentifier": "texture:493593-0f8e3482-53a3-42f3-a2f8-4af349427539",
           "textureWrapModeU": "repeat",
           "textureWrapModeV": "repeat",
           "type": "texture"
@@ -67,10 +82,11 @@
         {
           "modelName": "composed_material_parameter_model",
           "name": "positionLow",
-          "identifier": "composed_material_parameter_model:452634-0f8e3482-53a3-42f3-a2f8-4af349427539",
+          "identifier": "composed_material_parameter_model:496142-0f8e3482-53a3-42f3-a2f8-4af349427539",
           "hasTextureParameters": false,
           "isTextureIdentifierEnabled": false,
           "textureFilter": "bilinear",
+          "textureIdentifier": "texture:493589-0f8e3482-53a3-42f3-a2f8-4af349427539",
           "textureWrapModeU": "repeat",
           "textureWrapModeV": "repeat",
           "type": "texture"
@@ -78,10 +94,11 @@
         {
           "modelName": "composed_material_parameter_model",
           "name": "normalHigh",
-          "identifier": "composed_material_parameter_model:452636-0f8e3482-53a3-42f3-a2f8-4af349427539",
+          "identifier": "composed_material_parameter_model:496144-0f8e3482-53a3-42f3-a2f8-4af349427539",
           "hasTextureParameters": false,
           "isTextureIdentifierEnabled": false,
           "textureFilter": "bilinear",
+          "textureIdentifier": "texture:493585-0f8e3482-53a3-42f3-a2f8-4af349427539",
           "textureWrapModeU": "repeat",
           "textureWrapModeV": "repeat",
           "type": "texture"
@@ -89,10 +106,11 @@
         {
           "modelName": "composed_material_parameter_model",
           "name": "normalLow",
-          "identifier": "composed_material_parameter_model:452638-0f8e3482-53a3-42f3-a2f8-4af349427539",
+          "identifier": "composed_material_parameter_model:496146-0f8e3482-53a3-42f3-a2f8-4af349427539",
           "hasTextureParameters": false,
           "isTextureIdentifierEnabled": false,
           "textureFilter": "bilinear",
+          "textureIdentifier": "texture:493581-0f8e3482-53a3-42f3-a2f8-4af349427539",
           "textureWrapModeU": "repeat",
           "textureWrapModeV": "repeat",
           "type": "texture"
@@ -100,7 +118,21 @@
         {
           "modelName": "composed_material_parameter_model",
           "name": "scaleFactor",
-          "identifier": "composed_material_parameter_model:452644-0f8e3482-53a3-42f3-a2f8-4af349427539",
+          "identifier": "composed_material_parameter_model:496152-0f8e3482-53a3-42f3-a2f8-4af349427539",
+          "hasTextureParameters": false,
+          "isTextureIdentifierEnabled": false,
+          "rawValue": [
+            1.81
+          ],
+          "textureFilter": "bilinear",
+          "textureWrapModeU": "repeat",
+          "textureWrapModeV": "repeat",
+          "type": "float"
+        },
+        {
+          "modelName": "composed_material_parameter_model",
+          "name": "normalScale",
+          "identifier": "composed_material_parameter_model:497390-0f8e3482-53a3-42f3-a2f8-4af349427539",
           "hasTextureParameters": false,
           "isTextureIdentifierEnabled": false,
           "rawValue": [
@@ -113,26 +145,12 @@
         },
         {
           "modelName": "composed_material_parameter_model",
-          "name": "normalScale",
-          "identifier": "composed_material_parameter_model:456634-0f8e3482-53a3-42f3-a2f8-4af349427539",
-          "hasTextureParameters": false,
-          "isTextureIdentifierEnabled": false,
-          "rawValue": [
-            1
-          ],
-          "textureFilter": "bilinear",
-          "textureWrapModeU": "repeat",
-          "textureWrapModeV": "repeat",
-          "type": "float"
-        },
-        {
-          "modelName": "composed_material_parameter_model",
           "name": "normalTile",
-          "identifier": "composed_material_parameter_model:456636-0f8e3482-53a3-42f3-a2f8-4af349427539",
+          "identifier": "composed_material_parameter_model:497392-0f8e3482-53a3-42f3-a2f8-4af349427539",
           "hasTextureParameters": false,
           "isTextureIdentifierEnabled": false,
           "rawValue": [
-            1
+            6
           ],
           "textureFilter": "bilinear",
           "textureWrapModeU": "repeat",
@@ -142,11 +160,11 @@
         {
           "modelName": "composed_material_parameter_model",
           "name": "frame",
-          "identifier": "composed_material_parameter_model:462490-0f8e3482-53a3-42f3-a2f8-4af349427539",
+          "identifier": "composed_material_parameter_model:496150-0f8e3482-53a3-42f3-a2f8-4af349427539",
           "hasTextureParameters": false,
           "isTextureIdentifierEnabled": false,
           "rawValue": [
-            0
+            1
           ],
           "textureFilter": "bilinear",
           "textureWrapModeU": "repeat",
@@ -156,11 +174,11 @@
         {
           "modelName": "composed_material_parameter_model",
           "name": "chunks",
-          "identifier": "composed_material_parameter_model:460400-0f8e3482-53a3-42f3-a2f8-4af349427539",
+          "identifier": "composed_material_parameter_model:496154-0f8e3482-53a3-42f3-a2f8-4af349427539",
           "hasTextureParameters": false,
           "isTextureIdentifierEnabled": false,
           "rawValue": [
-            4
+            15
           ],
           "textureFilter": "bilinear",
           "textureWrapModeU": "repeat",

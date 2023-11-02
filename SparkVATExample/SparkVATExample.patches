@@ -17,10 +17,10 @@
     "connections": [
       {
         "modelName": "patch_connection_model",
-        "identifier": "patch_connection_model:467790-0f8e3482-53a3-42f3-a2f8-4af349427539",
+        "identifier": "patch_connection_model:505140-0f8e3482-53a3-42f3-a2f8-4af349427539",
         "fromPatch": "template_patch_model:438669-0f8e3482-53a3-42f3-a2f8-4af349427539",
         "fromPort": "1001",
-        "toPatch": "consumer_patch_model:464506-0f8e3482-53a3-42f3-a2f8-4af349427539",
+        "toPatch": "consumer_patch_model:499018-0f8e3482-53a3-42f3-a2f8-4af349427539",
         "toPort": "1"
       }
     ],
@@ -29,7 +29,7 @@
         "modelName": "patch_graph",
         "identifier": "patch_graph:405265-d5b3073e-1e57-475f-ba35-a67c8a0e3e1d",
         "subpatches": [
-          "consumer_patch_model:464506-0f8e3482-53a3-42f3-a2f8-4af349427539",
+          "consumer_patch_model:499018-0f8e3482-53a3-42f3-a2f8-4af349427539",
           "template_patch_model:438669-0f8e3482-53a3-42f3-a2f8-4af349427539"
         ]
       }
@@ -37,13 +37,22 @@
     "patches": [
       {
         "modelName": "consumer_patch_model",
-        "name": "phoenix-packed",
-        "identifier": "consumer_patch_model:464506-0f8e3482-53a3-42f3-a2f8-4af349427539",
-        "object": "composed_material_parameter_model:462490-0f8e3482-53a3-42f3-a2f8-4af349427539",
+        "name": "Triceratops",
+        "identifier": "consumer_patch_model:499018-0f8e3482-53a3-42f3-a2f8-4af349427539",
+        "object": "composed_material_parameter_model:496150-0f8e3482-53a3-42f3-a2f8-4af349427539",
         "objectProperty": "shader_parameter",
         "position": [
-          620,
-          140
+          644,
+          116
+        ],
+        "values": [
+          {
+            "port": "1",
+            "value": {
+              "t": "double",
+              "v": 0.96
+            }
+          }
         ]
       },
       {
@@ -60,7 +69,7 @@
             "port": "102",
             "value": {
               "t": "double",
-              "v": 4
+              "v": 2
             }
           }
         ]

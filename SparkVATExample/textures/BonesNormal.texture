@@ -1,10 +1,10 @@
 {
   "modelName": "texture",
-  "name": "UV_checker_Map_byValle",
-  "identifier": "texture:437427-0f8e3482-53a3-42f3-a2f8-4af349427539",
+  "name": "BonesNormal",
+  "identifier": "texture:506076-0f8e3482-53a3-42f3-a2f8-4af349427539",
   "alphaPremultiplicationMode": "should_premultiply",
-  "assetDataHash": "b7353e7097159cec2e1093c1e72bd3f6",
-  "assetLocator": "textures/UV_checker_Map_byValle.jpg",
+  "assetDataHash": "a3de6f3b67e55fa9e85a9a0082ffbfb7",
+  "assetLocator": "textures/BonesNormal.jpg",
   "colorEncoding": "linear",
   "compressionQuality": "high",
   "coordMapping": "none",
@@ -12,25 +12,25 @@
   "excludeFromPackage": false,
   "filter": "bilinear",
   "hasOfflineMipmaps": false,
-  "height": 1024,
+  "height": 512,
   "importIssues": {},
   "isExternalAsset": true,
   "smartTextureTargetSizeLimit": "largest",
   "targetSize": "largest",
-  "uWrapMode": "clamp",
-  "vWrapMode": "clamp",
-  "width": 1024,
+  "uWrapMode": "repeat",
+  "vWrapMode": "repeat",
+  "width": 512,
   "children": [
     {
       "modelName": "data_texture_metadata_model",
       "name": "data_texture_metadata_model0",
-      "assetDataHash": "b7353e7097159cec2e1093c1e72bd3f6",
-      "colorCount": 15352,
+      "assetDataHash": "a3de6f3b67e55fa9e85a9a0082ffbfb7",
+      "colorCount": 21919,
       "detectedAlphaChannel": "no_alpha",
       "detectedOriginalFormat": "jpeg",
-      "entropyOfDistribution": 7.739944278453289,
-      "pixelsHigh": 1024,
-      "pixelsWide": 1024
+      "entropyOfDistribution": 11.316769233941526,
+      "pixelsHigh": 512,
+      "pixelsWide": 512
     }
   ]
 }
