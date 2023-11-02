@@ -3,7 +3,7 @@
 ## Description
 A combination of scripts for Blender and Meta Spark AR to play back arbitrarily deformed geometry in Spark without using bones. It is super performant and flexible. 
 
-![](https://github.com/MateSteinforth/SparkAR-VAT/blob/master/animatedCube.gif)
+![](https://github.com/MateSteinforth/SparkAR-VAT/blob/packedVertices/Triceratops.gif)
 
 ## Tutorial
 
