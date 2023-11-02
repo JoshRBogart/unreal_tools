@@ -70,7 +70,6 @@ def export_mesh(context, obj, name):
     bpy.ops.export_scene.fbx(filepath=output_dir, use_selection=True, apply_unit_scale=False, use_space_transform=False, apply_scale_options='FBX_SCALE_ALL')
 
 
-
 def create_export_mesh_object(context, data, me):
     """Return a mesh object with correct UVs spread across a single texture."""
     max_vertices_per_chunk = 1024  # Our set maximum vertices for each chunk.
@@ -81,24 +80,35 @@ def create_export_mesh_object(context, data, me):
     uv_layer.name = "vertex_anim"
 
     max_vertex_index = len(me.vertices)
-    total_chunks = -(-max_vertex_index // max_vertices_per_chunk)  # Ceiling division to get total number of chunks.
 
-    # Determine the vertical step for each chunk in UV coordinates.
-    vertical_step = 1.0 / total_chunks
-    half_pixel_v_offset = 0.5 / max_vertices_per_chunk  # For vertical positioning.
+    # If fewer than 1024 vertices, spread them across U 0...1.
+    if max_vertex_index <= max_vertices_per_chunk:
+        u_step = 1.0 / max_vertex_index
+        half_pixel_h_offset = 0.5 / max_vertex_index  # For horizontal positioning
+        for loop in me.loops:
+            u_coord = (loop.vertex_index + 0.5) * u_step  # Center the vertex in the UV space allocated for it
+            v_coord = half_pixel_h_offset  # Slightly above the bottom of the texture to avoid sampling issues
 
-    for loop in me.loops:
-        chunk_number = loop.vertex_index // max_vertices_per_chunk
-        index_in_chunk = loop.vertex_index % max_vertices_per_chunk
+            uv_layer.data[loop.index].uv = (u_coord, v_coord)
+    else:
+        total_chunks = -(-max_vertex_index // max_vertices_per_chunk)  # Ceiling division to get total number of chunks.
 
-        # Calculate U coordinate: position it in the middle of the pixel, based on a 1024 grid.
-        u_coord = (index_in_chunk + 0.5) / max_vertices_per_chunk
+        # Determine the vertical step for each chunk in UV coordinates.
+        vertical_step = 1.0 / total_chunks
+        half_pixel_v_offset = 0.5 / max_vertices_per_chunk  # For vertical positioning.
 
-        # Calculate V coordinate: position it based on the chunk and add the half-pixel offset.
-        v_base = chunk_number * vertical_step
-        v_coord = v_base + (half_pixel_v_offset * vertical_step)
+        for loop in me.loops:
+            chunk_number = loop.vertex_index // max_vertices_per_chunk
+            index_in_chunk = loop.vertex_index % max_vertices_per_chunk
 
-        uv_layer.data[loop.index].uv = (u_coord, v_coord)
+            # Calculate U coordinate: position it in the middle of the pixel, based on a 1024 grid.
+            u_coord = (index_in_chunk + 0.5) / max_vertices_per_chunk
+
+            # Calculate V coordinate: position it based on the chunk and add the half-pixel offset.
+            v_base = chunk_number * vertical_step
+            v_coord = v_base + (half_pixel_v_offset * vertical_step)
+
+            uv_layer.data[loop.index].uv = (u_coord, v_coord)
 
     ob = data.objects.new("export_mesh", me)
     context.scene.collection.objects.link(ob)
@@ -107,18 +117,38 @@ def create_export_mesh_object(context, data, me):
 
 
 # def create_export_mesh_object(context, data, me):
-#     """Return a mesh object with correct UVs"""
+#     """Return a mesh object with correct UVs spread across a single texture."""
+#     max_vertices_per_chunk = 1024  # Our set maximum vertices for each chunk.
+
 #     while len(me.uv_layers) < 2:
 #         me.uv_layers.new()
 #     uv_layer = me.uv_layers[1]
 #     uv_layer.name = "vertex_anim"
+
+#     max_vertex_index = len(me.vertices)
+#     total_chunks = -(-max_vertex_index // max_vertices_per_chunk)  # Ceiling division to get total number of chunks.
+
+#     # Determine the vertical step for each chunk in UV coordinates.
+#     vertical_step = 1.0 / total_chunks
+#     half_pixel_v_offset = 0.5 / max_vertices_per_chunk  # For vertical positioning.
+
 #     for loop in me.loops:
-#         uv_layer.data[loop.index].uv = (
-#             (loop.vertex_index + 0.5)/len(me.vertices), 128/255
-#         )
+#         chunk_number = loop.vertex_index // max_vertices_per_chunk
+#         index_in_chunk = loop.vertex_index % max_vertices_per_chunk
+
+#         # Calculate U coordinate: position it in the middle of the pixel, based on a 1024 grid.
+#         u_coord = (index_in_chunk + 0.5) / max_vertices_per_chunk
+
+#         # Calculate V coordinate: position it based on the chunk and add the half-pixel offset.
+#         v_base = chunk_number * vertical_step
+#         v_coord = v_base + (half_pixel_v_offset * vertical_step)
+
+#         uv_layer.data[loop.index].uv = (u_coord, v_coord)
+
 #     ob = data.objects.new("export_mesh", me)
 #     context.scene.collection.objects.link(ob)
 #     return ob
+
 
 
 def get_vertex_data(context, data, meshes):
@@ -202,11 +232,18 @@ def create_and_save_image(name_postfix, size, byte_list, output_dir, context):
             start_index = (y * width + full_chunk_count * max_chunk_width) * 4
             end_index = start_index + remainder_width * 4
             combined_byte_list.extend(byte_list[start_index:end_index])
-            combined_byte_list.extend(padding_color * (max_chunk_width - remainder_width))  # Fill the remainder with RGB 127,127,127
+            # Only add padding if there are more than one chunk
+            if full_chunk_count > 0:
+                combined_byte_list.extend(padding_color * (max_chunk_width - remainder_width))  # Fill the remainder with padding
 
     # Calculate combined image dimensions
-    combined_image_width = max_chunk_width
-    combined_image_height = height * (full_chunk_count + (1 if remainder_width else 0))
+    if full_chunk_count > 0:
+        # If more than one chunk, use full max_chunk_width
+        combined_image_width = max_chunk_width
+    else:
+        # If only remainder, use the remainder width
+        combined_image_width = remainder_width
+    combined_image_height = height * num_chunks
 
     # Ensure minimum dimensions of 32 pixels
     combined_image_width = max(32, combined_image_width)
@@ -221,11 +258,12 @@ def create_and_save_image(name_postfix, size, byte_list, output_dir, context):
         combined_image.scale(combined_image_width, combined_image_height)
 
     # Save and remove the temporary image
-    combined_image.save_render(f"{output_dir}{name_postfix}.png", scene=bpy.context.scene)
+    combined_image.save_render(f"{output_dir}{name_postfix}.png", scene=context.scene)
     bpy.data.images.remove(combined_image)
 
     # Return the number of chunks
-    return full_chunk_count + (1 if remainder_width else 0)
+    return num_chunks
+
 
 
 
@@ -366,7 +404,7 @@ class VIEW3D_PT_VertexAnimation(bpy.types.Panel):
         # col.prop(scene, "frame_step", text="Step")
         col.prop(scene, "output_dir", text="Output Directory")
         col.prop(scene, "scale_factor", text="Scale Factor")
-        col.prop(scene, "num_chunks", text="Number of Chunks")
+        col.prop(scene, "num_chunks", text="Chunks")
         row = layout.row()
         row.operator("object.process_anim_meshes")
 
