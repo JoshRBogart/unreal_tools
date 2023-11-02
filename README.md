@@ -57,7 +57,21 @@ assign it to the exported mesh from the output directory
 
 
 ### Known Limitations
-Because of Texture Size limits in Spark, this workflow can only process meshes of up to 1024 vertices and up to 1024 frames (roughly 40 seconds at 25fps)
+Because of Texture Size limits in Spark, the maximum framerange of the animation depends on the mesh resolution. Many animations don't need many frames, while most models have a few thousand vertices. An average walk cycle for a character is only about 30 frames.
+
+| Vertices        | Max Frames           | Seconds @25fps  |
+| ------------- |:-------------:| -----:|
+| <1024        | 1024 | 40 |
+| <2048        | 512      |   20 |
+| <3072 | 340      |    13 |
+| <4096 | 256      |    10 |
+| <5120 | 204      |    8 |
+| <6144 | 170      |    6 |
+| <7168 | 146      |    5 |
+| <8192 | 128      |    4 |
+| ... | ...      |    ... |
+| <16384 | 64      |    2,56 |
+| <32768 | 32      |   1,28 |
 
 Vertex Order can't change between frames, which means that the mesh has to stay consistent between frames
 
