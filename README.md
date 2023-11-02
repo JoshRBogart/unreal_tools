@@ -33,6 +33,8 @@ click 'Process Anim Meshes'
 
 **observe the changed 'Scale Factor' in the UI...**
 
+**observe the changed 'Chunks' in the UI...**
+
 
 ### Installing the Shader in Spark AR
 
@@ -53,7 +55,9 @@ assign it to the exported mesh from the output directory
 
 **enter the Scale Factor from the Blender UI in the appropriate field**
 
-![](https://github.com/MateSteinforth/SparkAR-VAT/blob/master/Scale%20Factor.png)
+**enter the Chunks from the Blender UI in the appropriate field**
+
+![](https://github.com/MateSteinforth/SparkAR-VAT/blob/packedVertices/Factors.png)
 
 
 ### Known Limitations
