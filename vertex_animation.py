@@ -105,14 +105,21 @@ def bake_vertex_data(data, offsets, normals, size):
         alpha=True,
         float_buffer=True
     )
+    offset_texture.pixels = offsets
+    offset_texture.filepath_raw = "//offsets.exr"
+    offset_texture.file_format = 'OPEN_EXR'
+    offset_texture.save()
+
     normal_texture = data.images.new(
         name="normals",
         width=width,
         height=height,
         alpha=True
     )
-    offset_texture.pixels = offsets
     normal_texture.pixels = normals
+    normal_texture.filepath_raw = "//normals.bmp"
+    normal_texture.file_format = 'BMP'
+    normal_texture.save()
 
 
 class OBJECT_OT_ProcessAnimMeshes(bpy.types.Operator):
@@ -125,7 +132,7 @@ class OBJECT_OT_ProcessAnimMeshes(bpy.types.Operator):
     def allowed_modifiers(self):
         return [
             'ARMATURE', 'CAST', 'CURVE', 'DISPLACE', 'HOOK',
-            'LAPLACIANDEFORM', 'LATTICE', 'MESH_DEFORM',
+            'LAPLACIANDEFORM', 'LATTICE', 'MESH_DEFORM', 'MESH_SEQUENCE_CACHE',
             'SHRINKWRAP', 'SIMPLE_DEFORM', 'SMOOTH',
             'CORRECTIVE_SMOOTH', 'LAPLACIANSMOOTH',
             'SURFACE_DEFORM', 'WARP', 'WAVE',
