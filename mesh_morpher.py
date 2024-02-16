@@ -23,7 +23,7 @@ bl_info = {
     "name": "Mesh Morpher",
     "author": "Joshua Bogart",
     "version": (1, 0),
-    "blender": (2, 83, 0),
+    "blender": (4, 0, 1),
     "location": "View3D > Sidebar > Unreal Tools Tab",
     "description": "A tool for storing shape key data for use in a vertex shader.",
     "warning": "",
